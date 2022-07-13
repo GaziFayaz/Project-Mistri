@@ -1,39 +1,33 @@
 import {
-    HomeIcon, 
-    SearchIcon, 
-    LibraryIcon, 
-    PlusCircleIcon,
-    MenuIcon,
-} from "@heroicons/react/outline"
-import Link from "next/link"
+  HomeIcon,
+  SearchIcon,
+  LibraryIcon,
+  PlusCircleIcon,
+  MenuIcon,
+} from "@heroicons/react/outline";
+import Link from "next/link";
 
 const Navbar = () => {
-  const user = false
-  const username = false  
+  const user = false;
+  const username = false;
   return (
-    <div className="flex items-center space-x-3 pl-4">
-        <Link href="/exploreservices">
-            <p className="hidden md:inline-flex cursor-pointer">Explore</p>
-        </Link>
-
-        {/* username is false then sign in will be displayed */}
-        {!username && (
-            <>
-                 <Link href="#">
-                    <p className="link hidden md:inline-flex cursor-pointer">Sign in</p>
-                </Link>
-            </>
-        )}
-
-       
-        
-        
-        <button className=":h-5 sm:w-5">
-            <MenuIcon/>
-        </button>
-
+    <div className=" space-x-3">
+      <p className="link hidden md:inline-flex cursor-pointer hover:text-white font-bold">
+        Explore
+      </p>
+      <Link href={"/login"}>
+        <p className="link hidden md:inline-flex cursor-pointer hover:text-white font-bold">
+          Sign in
+        </p>
+      </Link>
+      <button className="link hidden md:inline-flex m-4 p-4 border-2 py-1 text-center font-bold font- px-4 rounded-full border-black hover:border-white hover:text-white">
+        JOIN
+      </button>
+      <button className="h-5 sm:w-5">
+        <MenuIcon />
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
