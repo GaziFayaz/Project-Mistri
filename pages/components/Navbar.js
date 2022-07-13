@@ -15,7 +15,7 @@ const Navbar = () => {
       <p className="link hidden md:inline-flex cursor-pointer hover:text-white font-bold">
         Explore
       </p>
-      <Link href={"/login"}>
+      <Link href="/login">
         <p className="link hidden md:inline-flex cursor-pointer hover:text-white font-bold">
           Sign in
         </p>
