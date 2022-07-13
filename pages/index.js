@@ -14,7 +14,7 @@ export default function Home() {
       
       {/* <Header /> */}
 
-      <main className=" bg-slate-400 ">
+      <main className=" bg-homebg">
         <div>
         <Center/>
         </div>   
