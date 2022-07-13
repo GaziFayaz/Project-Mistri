@@ -6,7 +6,7 @@ import { LockClosedIcon } from '@heroicons/react/solid'
 
 export default function login() {
   return (
-    <>
+    <div className="bg-homebg h-screen">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
@@ -15,11 +15,11 @@ export default function login() {
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt="Workflow"
             />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{' '}
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                start your 14-day free trial
+              <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
+                Sign up
               </a>
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function login() {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-emerald-500 hover:text-header">
+                <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
                   Forgot your password?
                 </a>
               </div>
@@ -79,10 +79,10 @@ export default function login() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                  <LockClosedIcon className="h-5 w-5 text-green-900 group-hover:text-black" aria-hidden="true" />
                 </span>
                 Sign in
               </button>
@@ -90,6 +90,6 @@ export default function login() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   )
 }
