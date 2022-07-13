@@ -24,7 +24,7 @@ const Header = () => {
         <input
           type="text"
           placeholder="search services"
-          className=" rounded-md focus:outline-none text-left bg-slate-200 text-black mr-5 pl-3"
+          className=" rounded-md focus:outline-none text-left bg-slate-200 text-black mr-5 pl-3 w-60"
         />
       </div>
 
