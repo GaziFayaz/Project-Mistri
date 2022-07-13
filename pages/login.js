@@ -1,8 +1,5 @@
-import React from "react"
-import { LockClosedIcon } from '@heroicons/react/solid'
-
-
-
+import React from "react";
+import { LockClosedIcon } from "@heroicons/react/solid";
 
 export default function login() {
   return (
@@ -64,13 +61,23 @@ export default function login() {
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
+<<<<<<< HEAD
                 <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
+=======
+                <a
+                  href="#"
+                  className="font-medium text-emerald-500 hover:text-header"
+                >
+>>>>>>> 5dec7757653aeea0ec9ab8e2cfeff0678133257e
                   Forgot your password?
                 </a>
               </div>
@@ -82,7 +89,14 @@ export default function login() {
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+<<<<<<< HEAD
                   <LockClosedIcon className="h-5 w-5 text-green-900 group-hover:text-black" aria-hidden="true" />
+=======
+                  <LockClosedIcon
+                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    aria-hidden="true"
+                  />
+>>>>>>> 5dec7757653aeea0ec9ab8e2cfeff0678133257e
                 </span>
                 Sign in
               </button>
@@ -90,6 +104,12 @@ export default function login() {
           </form>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
   )
 }
+=======
+    </>
+  );
+}
+>>>>>>> 5dec7757653aeea0ec9ab8e2cfeff0678133257e
