@@ -75,14 +75,10 @@ export default function login() {
               </div>
 
               <div className="text-sm">
-<<<<<<< HEAD
                 <a
                   href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-emerald-500 hover:text-header"
                 >
-=======
-                <a href="#" className="font-medium text-emerald-500 hover:text-header">
->>>>>>> 3595b26f5aaa98dabb7650eddab2210bdb2af24d
                   Forgot your password?
                 </a>
               </div>
