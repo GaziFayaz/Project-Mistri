@@ -5,6 +5,7 @@ import {
     PlusCircleIcon,
     MenuIcon,
 } from "@heroicons/react/outline"
+import Link from "next/link"
 import Navbar from "./Navbar"
 
 const Header = () => {
@@ -12,9 +13,12 @@ const Header = () => {
     <div className="flex items-center bg-emerald-500 py-4 px-6">
         {/* // "mistri" logo left side */}
         <div className="flex items-center flex-grow" >
-            <h1 className=" link font-serif font-medium text-2xl cursor-pointer">
-            mistri
-            </h1> 
+            <Link href="/">
+                <h1 className="font-serif font-medium text-2xl cursor-pointer">
+                mistri
+                </h1> 
+            </Link>
+            
         </div>
 
         {/* Search bar */}

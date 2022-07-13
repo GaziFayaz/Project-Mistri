@@ -12,7 +12,7 @@ export default function Home() {
         <title>MISTRI 1.0</title>
       </Head>
       
-      <Header />
+      {/* <Header /> */}
 
       <main className=" bg-slate-400 ">
         <div>
