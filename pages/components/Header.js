@@ -5,6 +5,7 @@ import {
     PlusCircleIcon,
     MenuIcon,
 } from "@heroicons/react/outline"
+import Navbar from "./Navbar"
 
 const Header = () => {
   return (
@@ -27,12 +28,8 @@ const Header = () => {
         </div>
         
         {/* // header-right-side */}
-        <div className="flex items-center space-x-3 pl-4">
-            <p className="link hidden md:inline-flex cursor-pointer">Explore</p>
-            <p className="link hidden md:inline-flex cursor-pointer">Sign in</p>
-            <button className=":h-5 sm:w-5">
-                <MenuIcon/>
-            </button>
+        <div>
+            <Navbar/>     
         </div>
     </div>
 
