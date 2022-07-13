@@ -3,8 +3,8 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 
 export default function login() {
   return (
-    <div className="bg-homebg h-screen">
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-homebg h-screen overflow-hidden">
+      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8">
           <div>
             <img
@@ -33,7 +33,7 @@ export default function login() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -47,7 +47,7 @@ export default function login() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none  focus:border-green-700 focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
@@ -59,7 +59,7 @@ export default function login() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 border-green-600 rounded"
                 />
                 <label
                   htmlFor="remember-me"
