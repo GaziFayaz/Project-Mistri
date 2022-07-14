@@ -39,7 +39,7 @@ export default function SignIn({ csrfToken }) {
         {(formik) => (
           <form>
             <div
-              className="bg-red-400 flex flex-col items-center 
+              className="bg-homebg flex flex-col items-center 
             justify-center min-h-screen py-2 shadow-lg"
             >
               <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
