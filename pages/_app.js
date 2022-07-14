@@ -1,14 +1,16 @@
-import '../styles/globals.css'
-import Header from './components/Header'
+import { SessionProvider } from "next-auth/react";
+import "../styles/globals.css";
+import Header from "./components/Header";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <div className="font-poppins">
-      <Header/>
-      <Component {...pageProps} />
+      <SessionProvider session={session}>
+        <Header />
+        <Component {...pageProps} />
+      </SessionProvider>
     </div>
-    
-  ) 
+  );
 }
 
-export default MyApp
+export default MyApp;
