@@ -16,7 +16,7 @@ const Header = () => {
       <div className="fixed top-0 left-0 right-0 flex items-center bg-header px-4 py-1 h-14">
         {/* "mistri" logo left side */}
         <Link href="/">
-          <div className="flex items-center pr-7 pb-2">
+          <div className="flex items-center pr-7 pb-1">
             <Image
               src={mistrilogo}
               height={55}
