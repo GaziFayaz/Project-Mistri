@@ -60,7 +60,7 @@ export default function SignIn({ csrfToken, providers }) {
                 method="POST"
               >
                 <div
-                  className="bg-red-400 flex flex-col items-center 
+                  className=" bg-homebg flex flex-col items-center 
             justify-center min-h-screen py-2 shadow-lg"
                 >
                   <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -145,7 +145,7 @@ export default function SignIn({ csrfToken, providers }) {
                     <div className="flex items-center justify-center">
                       <button
                         type="submit"
-                        className="bg-green-400 text-gray-100 p-3 rounded-lg w-full"
+                        className=" bg-emerald-400 hover:bg-emerald-600 text-gray-100 p-3 rounded-lg w-full"
                       >
                         {formik.isSubmitting ? "Please wait..." : "Sign In"}
                       </button>
