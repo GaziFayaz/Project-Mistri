@@ -3,9 +3,23 @@ import { signIn, getCsrfToken } from "next-auth/react";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
-import Credentials from "next-auth/providers/credentials";
+import { getProviders, signIn as signInTOGoogle } from "next-auth/react";
 
-export default function SignIn({ csrfToken }) {
+// export default function SignIn({ providers }) {
+//   return (
+//     <>
+//       {Object.values(providers).map((provider) => (
+//         <div key={provider.name}>
+//           <button onClick={() => signInTOGoogle(provider.id)}>
+//             Sign in with {provider.name}
+//           </button>
+//         </div>
+//       ))}
+//     </>
+//   )
+// }
+
+export default function SignIn({ csrfToken, providers }) {
   const router = useRouter();
   const [error, setError] = useState(null);
 
@@ -23,9 +37,10 @@ export default function SignIn({ csrfToken }) {
         onSubmit={async (values, { setSubmitting }) => {
           const res = await signIn("credentials", {
             redirect: false,
-            email: "a@gmail.com",
-            password: "1234",
-            callbackUrl: `${window.location.origin}`,
+            username: values.username,
+            email: values.email,
+            password: values.password,
+            // callbackUrl: "/",
           });
           // if (res?.error) {
           //   setError(res.error);
@@ -37,71 +52,109 @@ export default function SignIn({ csrfToken }) {
         }}
       >
         {(formik) => (
-          <form>
-            <div
-              className="bg-red-400 flex flex-col items-center 
+          <>
+            <div>
+              <form
+                onSubmit={formik.handleSubmit}
+                action="/api/auth/callback/credentials"
+                method="POST"
+              >
+                <div
+                  className="bg-red-400 flex flex-col items-center 
             justify-center min-h-screen py-2 shadow-lg"
-            >
-              <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <input
-                  name="csrfToken"
-                  type="hidden"
-                  defaultValue={csrfToken}
-                />
-
-                <div className="text-red-400 text-md text-center rounded p-2">
-                  {error}
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="email"
-                    className="uppercase text-sm text-gray-600 font-bold"
-                  >
-                    Email
-                    <Field
-                      name="email"
-                      aria-label="enter your email"
-                      aria-required="true"
-                      type="text"
-                      className="w-full bg-gray-300 text-gray-900 mt-2 p-3"
+                >
+                  <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                    <input
+                      name="csrfToken"
+                      type="hidden"
+                      defaultValue={csrfToken}
                     />
-                  </label>
 
-                  <div className="text-red-600 text-sm">
-                    <ErrorMessage name="email" />
+                    <div className="text-red-400 text-md text-center rounded p-2">
+                      {error}
+                    </div>
+                    <div className="mb-4">
+                      <label
+                        htmlFor="email"
+                        className="uppercase text-sm text-gray-600 font-bold"
+                      >
+                        Email
+                        <Field
+                          name="email"
+                          aria-label="enter your email"
+                          aria-required="true"
+                          type="text"
+                          className="w-full bg-gray-300 text-gray-900 mt-2 p-3"
+                        />
+                      </label>
+
+                      <div className="text-red-600 text-sm">
+                        <ErrorMessage name="email" />
+                      </div>
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        htmlFor="username"
+                        className="uppercase text-sm text-gray-600 font-bold"
+                      >
+                        Username
+                        <Field
+                          name="username"
+                          aria-label="enter your username"
+                          aria-required="true"
+                          type="text"
+                          className="w-full bg-gray-300 text-gray-900 mt-2 p-3"
+                        />
+                      </label>
+
+                      <div className="text-red-600 text-sm">
+                        <ErrorMessage name="email" />
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <label
+                        htmlFor="password"
+                        className="uppercase text-sm text-gray-600 font-bold"
+                      >
+                        password
+                        <Field
+                          name="password"
+                          aria-label="enter your password"
+                          aria-required="true"
+                          type="password"
+                          className="w-full bg-gray-300 text-gray-900 mt-2 p-3"
+                        />
+                      </label>
+
+                      <div className="text-red-600 text-sm">
+                        <ErrorMessage name="password" />
+                      </div>
+                    </div>
+                    <div>
+                      {/* {Object.values(providers).map((provider) => (
+                        <div key={provider.name}>
+                          <button onClick={() => signInTOGoogle(provider.id)}>
+                            Sign in with {provider.name}
+                          </button>
+                        </div>
+                      ))} */}
+                    </div>
+
+                    <div className="flex items-center justify-center">
+                      <button
+                        type="submit"
+                        className="bg-green-400 text-gray-100 p-3 rounded-lg w-full"
+                      >
+                        {formik.isSubmitting ? "Please wait..." : "Sign In"}
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="mb-6">
-                  <label
-                    htmlFor="password"
-                    className="uppercase text-sm text-gray-600 font-bold"
-                  >
-                    password
-                    <Field
-                      name="password"
-                      aria-label="enter your password"
-                      aria-required="true"
-                      type="password"
-                      className="w-full bg-gray-300 text-gray-900 mt-2 p-3"
-                    />
-                  </label>
-
-                  <div className="text-red-600 text-sm">
-                    <ErrorMessage name="password" />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-center">
-                  <button
-                    type="submit"
-                    className="bg-green-400 text-gray-100 p-3 rounded-lg w-full"
-                  >
-                    {formik.isSubmitting ? "Please wait..." : "Sign In"}
-                  </button>
-                </div>
-              </div>
+              </form>
             </div>
-          </form>
+          </>
         )}
       </Formik>
     </>
@@ -110,8 +163,10 @@ export default function SignIn({ csrfToken }) {
 
 // This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps(context) {
+  const providers = await getProviders();
   return {
     props: {
+      providers,
       csrfToken: await getCsrfToken(context),
     },
   };
