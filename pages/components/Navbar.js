@@ -9,15 +9,16 @@ import {
   MenuIcon,
 } from "@heroicons/react/outline";
 import Link from "next/link";
+import Explore from "./Explore";
 
 const Navbar = () => {
   const user = false;
   const username = false;
   return (
     <div className="space-x-4">
-      <p className="link hidden md:inline-flex cursor-pointer hover:text-white font-bold">
-        Explore
-      </p>
+      <div className="hidden md:inline-flex cursor-pointer hover:text-white font-bold">
+        <Explore />
+      </div>
       <Link href="/auth/login">
         <p className="link hidden md:inline-flex cursor-pointer hover:text-white font-bold">
           Sign in
@@ -28,14 +29,20 @@ const Navbar = () => {
       </button>
 
       <Disclosure as="nav">
-        <Disclosure.Button className="fixed top-2 right-4 inline-flex item-center peer justify-center rounded-md p-2 text-gray hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
-          <GiHamburgerMenu
-            className="block md:hidden h-6 w-6"
-            aria-hidden="true"
-          />
+        <Disclosure.Button className=" md:hidden fixed top-2 right-4  item-center peer justify-center rounded-md p-2 text-gray hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
+          <GiHamburgerMenu className="md:hidden h-6 w-6" aria-hidden="true" />
         </Disclosure.Button>
-        <div className="p-6 w-1/2 h-screen bg-white z-20 fixed top-0 -right-96 lg:right-0 peer-focus:right-0 peer:transition ease-out delay-150 duration-200">
-           
+        <div className=" md:hidden p-6 w-1/2 h-screen bg-slate-400 z-10 fixed top-14 -right-96 lg:right-0 peer-focus:right-0 peer:transition ease-out delay-150 duration-200">
+          <div key="sidebar">
+            <h1 className="text-base text-center cursor-pointer font-bold text-blue-900  pb-4 w-full">
+              Explore{" "}
+            </h1>
+            <Link href="/auth/login">
+              <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 border-b border-gray-100 pb-4 w-full">
+                Sign in{" "}
+              </h1>
+            </Link>
+          </div>
         </div>
       </Disclosure>
     </div>
