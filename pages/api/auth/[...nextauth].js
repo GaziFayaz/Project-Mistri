@@ -44,7 +44,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/auth/dummylogin",
+    signIn: "/auth/signin",
   },
 
   theme: {

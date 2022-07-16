@@ -42,11 +42,11 @@ export default function SignIn({ csrfToken, providers }) {
             password: values.password,
             // callbackUrl: "/",
           });
-          // if (res?.error) {
-          //   setError(res.error);
-          // } else {
-          //   setError(null);
-          // }
+          if (res?.error) {
+            setError(res.error);
+          } else {
+            setError(null);
+          }
           if (res.url) router.push(res.url);
           setSubmitting(false);
         }}
