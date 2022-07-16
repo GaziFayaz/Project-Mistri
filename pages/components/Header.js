@@ -4,6 +4,7 @@ import {
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import Navbar from "./Navbar";
+import mistrilogo from "../../public/mistri_logo_svg.svg";
 
 const Header = () => {
   return (
@@ -13,9 +14,9 @@ const Header = () => {
         <Link href="/">
           <div className="flex items-center pr-7 pb-1">
             <Image
-              src="/mistri_logo_svg.svg"
-              height={52}
-              width={52}
+              src={mistrilogo}
+              height={55}
+              width={55}
               className="cursor-pointer"
             />
           </div>
