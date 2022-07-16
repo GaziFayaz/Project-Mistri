@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
     "formik": "^2.2.9",
     "next": "12.2.1",
     "next-auth": "^4.10.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.4.0",
     "react-responsive-carousel": "^3.2.23",
     "react-slideshow-image": "^4.0.2",
     "yup": "^0.32.11"

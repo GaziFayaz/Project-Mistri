@@ -1,10 +1,6 @@
 import Image from "next/image";
 import {
-  HomeIcon,
   SearchIcon,
-  LibraryIcon,
-  PlusCircleIcon,
-  MenuIcon,
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import Navbar from "./Navbar";
