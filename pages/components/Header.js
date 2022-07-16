@@ -9,7 +9,7 @@ import mistrilogo from "../../public/mistri_logo_svg.svg";
 const Header = () => {
   return (
     <header>
-      <div className="fixed top-0 left-0 right-0 flex items-center bg-header px-4 py-1 h-14">
+      <div className="fixed z-index-1 top-0 left-0 right-0 flex items-center bg-header px-4 py-1 h-14 ">
         {/* "mistri" logo left side */}
         <Link href="/">
           <div className="flex items-center pr-7 pb-1">
