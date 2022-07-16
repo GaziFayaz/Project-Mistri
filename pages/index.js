@@ -7,8 +7,6 @@ import Header from "./components/Header";
 import Slideshow from "./components/Slideshow";
 
 export default function Home() {
-  const { data: seesion } = useSession();
-  console.log(seesion);
   return (
     <div>
       <Head>
