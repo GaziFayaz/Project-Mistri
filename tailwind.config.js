@@ -5,16 +5,16 @@ module.exports = {
   ],
   theme: {
     screens:{
-      'sm': {'max' : '639px'},
-      'md': {'min' : '639px'}
+      'sm': {'max' : '660px'},
+      'md': {'min' : '660px'}
     },
     fontFamily: {
       "poppins": "Poppins, sans-serif",
     },
     extend: {
       colors: {
-        transparent: "transparent",
-        current: "currentColor",
+        "transparent": "transparent",
+        "current": "currentColor",
         "homebg": "#ADD0CC",
         "header": "#00D3AD",
         // ...

@@ -11,58 +11,10 @@ const Navbar = () => {
     <div>
       <ul className="flex items-center">
         <li className="p-4">
-          <Menu as="div" className="relative inline-block text-left">
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-100"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white divide-y divide-gray-100 focus:outline-none">
-                <div className="py-1">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        For Companies
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        For Investors
-                      </a>
-                    )}
-                  </Menu.Item>
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </li>
-        <li className="p-4">
-          <Menu as="div" className="relative inline-block text-left">
+          <Menu as="div">
             <div>
-              <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-                Account
+              <Menu.Button className=" border-none inline-flex justify-center w-full  font-bold hover:text-white focus:outline-none ">
+                Explore
                 <ChevronDownIcon
                   className="-mr-1 ml-2 h-5 w-5"
                   aria-hidden="true"
@@ -79,8 +31,8 @@ const Navbar = () => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none">
-                <div className="py-1">
+              <Menu.Items className="origin-top-right absolute right-20 mt-2 w-56 shadow-lg bg-header ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none">
+                <div className="py-1 columns-2 ">
                   <Menu.Item>
                     {({ active }) => (
                       <a
@@ -112,7 +64,7 @@ const Navbar = () => {
                     )}
                   </Menu.Item>
                 </div>
-                <div className="py-1">
+                <div className="py-1 columns-2">
                   <Menu.Item>
                     {({ active }) => (
                       <a
@@ -144,7 +96,7 @@ const Navbar = () => {
                     )}
                   </Menu.Item>
                 </div>
-                <div className="py-1">
+                <div className="py-1 columns-2">
                   <Menu.Item>
                     {({ active }) => (
                       <a
@@ -176,8 +128,8 @@ const Navbar = () => {
                     )}
                   </Menu.Item>
                 </div>
-                <div className="py-1">
-                  <Menu.Item disabled>
+                <div className="py-1 columns-2">
+                  <Menu.Item>
                     {({ active }) => (
                       <a
                         href="#"
