@@ -17,6 +17,7 @@ module.exports = {
         "current": "currentColor",
         "homebg": "#ADD0CC",
         "header": "#00D3AD",
+        "proDropDown": "#9EFFE8",
         // ...
         'New Swatch': {
           DEFAULT: '#51555A',
