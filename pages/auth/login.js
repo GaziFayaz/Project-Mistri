@@ -68,12 +68,12 @@ export default function login() {
     <div className="bg-homebg h-screen ">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8">
-          <div>
+          <div className= "flex-">
             <Image
               src={mistrilogo}
-              height={1000}
-              weight={1000}
-              className="mx-auto h-12 w-auto"
+              height={350}
+              width={1000}
+              className=""
             />
 
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
