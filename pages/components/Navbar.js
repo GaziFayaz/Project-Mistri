@@ -9,7 +9,6 @@ import { magic } from "../../lib/magic-client";
 import Link from "next/link";
 
 import Explore from "./Explore";
-import profileButton from "../components/profileButton.js";
 import Sidebar_explore from "./Sidebar_explore";
 
 const Navbar = () => {
