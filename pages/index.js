@@ -18,12 +18,9 @@ export default function Home({ services }) {
         <title>MISTRI 1.0</title>
       </Head>
 
-      {/* <Header /> */}
+      <Header />
 
       <main className=" bg-homebg">
-        <div>
-          <Header />
-        </div>
         <div>
           <Center />
         </div>
