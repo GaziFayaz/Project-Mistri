@@ -3,13 +3,13 @@ import { SearchIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Navbar from "./Navbar";
 import mistrilogo from "../../public/mistri_logo_svg.svg";
-// import { useRouter } from "next/router";
-// import { useState } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 // import { sanityClient } from "../../lib/Sanity";
 // import { useEffect } from "react";
 
 const Header = () => {
-  // const router = useRouter();
+  const router = useRouter();
   // const { query = "all" } = router.query;
 
   // const [state, setState] = useState({
@@ -33,16 +33,16 @@ const Header = () => {
   //   fetchdata();
   // }, [query]);
 
-  // const [queryall, setQueryAll] = useState("");
-  // const queryChangeHandler = (e) => {
-  //   setQueryAll(e.target.value);
-  // };
+  const [queryall, setQueryAll] = useState("");
+  const queryChangeHandler = (e) => {
+    setQueryAll(e.target.value);
+  };
 
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-  //   const searched = queryall.trim();
-  //   router.push(`/${searched}`);
-  // };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const searched = queryall.trim();
+    router.push(`/Search/${searched}`);
+  };
 
   // const filterSearch = ({ searchQuery }) => {
   //   const path = router.pathname;

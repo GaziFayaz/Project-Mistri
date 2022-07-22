@@ -13,38 +13,39 @@ import Link from "next/link";
 export default function Home({ services }) {
   console.log(services);
   return (
-   
-      <div>
-        <Head>
-          <title>MISTRI 1.0</title>
-        </Head>
+    <div>
+      <Head>
+        <title>MISTRI 1.0</title>
+      </Head>
 
-        {/* <Header /> */}
+      {/* <Header /> */}
 
-        <main className=" bg-homebg">
-          <div>
-            <Center />
-          </div>
-          <Slideshow />
-        </main>
-      </div>
+      <main className=" bg-homebg">
+        <div>
+          <Header />
+        </div>
+        <div>
+          <Center />
+        </div>
+        <Slideshow />
+      </main>
+    </div>
 
-      // <div className=" text-black">
-      //   <ul>
-      //     {services?.length > 0 &&
-      //       services.map((service) => (
-      //         <li key={service._id}>
-      //           <Link href="/">
-      //             <a>
-      //               {/* <img src={urlFor(recipe.mainImage).url()} alt={recipe.name} /> */}
-      //               <span>{service.service}</span>
-      //             </a>
-      //           </Link>
-      //         </li>
-      //       ))}
-      //   </ul>
-      // </div>
-    
+    // <div className=" text-black">
+    //   <ul>
+    //     {services?.length > 0 &&
+    //       services.map((service) => (
+    //         <li key={service._id}>
+    //           <Link href="/">
+    //             <a>
+    //               {/* <img src={urlFor(recipe.mainImage).url()} alt={recipe.name} /> */}
+    //               <span>{service.service}</span>
+    //             </a>
+    //           </Link>
+    //         </li>
+    //       ))}
+    //   </ul>
+    // </div>
   );
 }
 
