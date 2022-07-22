@@ -67,7 +67,7 @@ const Navbar = () => {
     e.preventDefault();
     setShowDropdown(!showDropdown);
   };
-  
+
   return (
     <div className="space-x-4">
       <div className="hidden md:inline-flex cursor-pointer hover:text-white">
@@ -89,9 +89,11 @@ const Navbar = () => {
 
           {showDropdown ? (
             <div className="flex-col w-full bg-proDropDown rounded-2xl">
-              <p className="px-4 font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center">
-                Profile
-              </p>
+              <Link href={"/manage_account"}>
+                <p className="px-4 font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center">
+                  Manage Account
+                </p>
+              </Link>
               <p
                 className="font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center"
                 onClick={logout}
