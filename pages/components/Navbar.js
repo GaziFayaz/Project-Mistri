@@ -32,7 +32,7 @@ const Navbar = () => {
       await magic.user.logout();
       const isLoggedIn = await magic.user.isLoggedIn();
       setIsLoggedIn(isLoggedIn);
-      console.log("User logged Out! isLoggedIn-",isLoggedIn); // => `false`
+      console.log("User logged Out! isLoggedIn-", isLoggedIn); // => `false`
     } catch (error) {
       // Handle errors if required!
       console.log("could not log out the user", error);
@@ -107,7 +107,7 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="hidden md:inline-flex items-center">
-          <Link href="/auth/login">
+          <Link href="/login">
             <p className="cursor-pointer hover:text-white font-bold">Sign in</p>
           </Link>
 
@@ -126,7 +126,7 @@ const Navbar = () => {
             <h1 className=" cursor-pointer font-bold text-blue-900 w-full">
               <Sidebar_explore />
             </h1>
-            <Link href="/auth/login">
+            <Link href="/login">
               <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 border-b border-gray-100 pb-4 w-full">
                 Sign in{" "}
               </h1>
