@@ -17,35 +17,35 @@ const Navbar = () => {
   // const user = false;
   // const username = false;
 
+  // State to track status profile button drop-down menu
   const [showDropdown, setShowDropdown] = useState(false);
 
   // State to track logged in or not
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // state to update the username on the navbar
+  const [username, setUsername] = useState("");
 
   // function to logout the user and update logged in status
   const logout = async (e) => {
     e.preventDefault();
-
     try {
       await magic.user.logout();
       const isLoggedIn = await magic.user.isLoggedIn();
       setIsLoggedIn(isLoggedIn);
-      console.log(isLoggedIn); // => `false`
+      console.log("User logged Out! isLoggedIn-",isLoggedIn); // => `false`
     } catch (error) {
       // Handle errors if required!
       console.log("could not log out the user", error);
     }
   };
 
-  // state to update the username on the navbar
-  const [username, setUsername] = useState("");
-
   useEffect(() => {
     (async () => {
       try {
         const isLoggedIn = await magic.user.isLoggedIn();
         setIsLoggedIn(isLoggedIn);
-        console.log(isLoggedIn);
+        console.log("Checking isLoggedIn...", isLoggedIn);
         try {
           const { email } = await magic.user.getMetadata();
           if (email) {
@@ -60,10 +60,10 @@ const Navbar = () => {
         // Handle errors if required!
         console.error("Could not check login information", error);
       }
-      // Assumes a user is already logged in
     })();
   }, []);
 
+  // function to change the profile button drop down state
   const handleShowDropdown = (e) => {
     e.preventDefault();
     setShowDropdown(!showDropdown);

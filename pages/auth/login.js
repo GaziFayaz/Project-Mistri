@@ -14,6 +14,7 @@ export default function login() {
   const router = useRouter();
 
   useEffect( () => {
+    
     const handleComplete = () => {
       // Turn "Loading..." back into "sign in" when routing is complete 
       setIsLoading(false);
@@ -49,6 +50,7 @@ export default function login() {
           if (didToken) {
             // route to home
             router.push("/");
+            
           }
         } catch (error) {
           // in case of error
