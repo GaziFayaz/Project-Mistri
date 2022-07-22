@@ -10,6 +10,7 @@ import Link from "next/link";
 
 import Explore from "./Explore";
 import profileButton from "../components/profileButton.js";
+import Sidebar_explore from "./Sidebar_explore";
 
 const Navbar = () => {
   const router = useRouter();
@@ -67,9 +68,10 @@ const Navbar = () => {
     e.preventDefault();
     setShowDropdown(!showDropdown);
   };
+  
   return (
     <div className="space-x-4">
-      <div className="hidden md:inline-flex cursor-pointer hover:text-white font-bold">
+      <div className="hidden md:inline-flex cursor-pointer hover:text-white">
         <Explore />
       </div>
 
@@ -120,8 +122,8 @@ const Navbar = () => {
         </Disclosure.Button>
         <div className=" md:hidden p-6 w-1/2 h-screen bg-slate-400 z-10 fixed top-14 -right-96 lg:right-0 peer-focus:right-0 peer:transition ease-out delay-150 duration-200">
           <div key="sidebar">
-            <h1 className="text-base text-center cursor-pointer font-bold text-blue-900  pb-4 w-full">
-              Explore{" "}
+            <h1 className=" cursor-pointer font-bold text-blue-900 w-full">
+              <Sidebar_explore />
             </h1>
             <Link href="/auth/login">
               <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 border-b border-gray-100 pb-4 w-full">
