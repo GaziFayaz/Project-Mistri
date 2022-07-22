@@ -4,16 +4,9 @@ export default {
   type: "document",
   fields: [
     {
-      name: "services",
-      title: "Services",
-      type: "array",
-      of: [
-        {
-          name: "services",
-          title: "Services",
-          type: "string",
-        }
-      ]
+      name: "service",
+      title: "Service",
+      type: "string",
     },
   ],
 };
