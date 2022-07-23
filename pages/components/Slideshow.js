@@ -51,7 +51,8 @@ const Slideshow = () => {
               className="w-3/4 object-cover rounded-lg shadow-xl"
               src={each}
               width={1550}
-              height={700}
+              height={550}
+            
             />
           </div>
         ))}

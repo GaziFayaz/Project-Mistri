@@ -5,8 +5,11 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import { magic } from "../lib/magic-client";
+import { sanityClient } from "../lib/Sanity";
 
-export default function login() {
+const userQuery = `*[_type == "user"]{ email}`;
+
+export default function login({ users }) {
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -39,27 +42,28 @@ export default function login() {
     console.log("hi button");
 
     if (email) {
-      if (
-        email === "gazifayaz.16694@gmail.com" ||
-        email === "haidersakib20@gmail.com"
-      ) {
-        // log in a user by their email
-        try {
-          // when clicked on the sign in button turn the show "loading..."
-          setIsLoading(true);
-          const didToken = await magic.auth.loginWithMagicLink({ email });
-          console.log({ didToken });
-          if (didToken) {
-            // route to home
-            router.push("/");
+      for (let index = 0; index < users.length; index++) {
+        const user = users[index].email;
+        if (email === user) {
+          // log in a user by their email
+          try {
+            // when clicked on the sign in button turn the show "loading..."
+            setIsLoading(true);
+            const didToken = await magic.auth.loginWithMagicLink({ email });
+            console.log({ didToken });
+            if (didToken) {
+              // route to home
+              router.push("/");
+            }
+          } catch (error) {
+            // in case of error
+            console.error("Something went wrong logging in", error);
           }
-        } catch (error) {
-          // in case of error
-          console.error("Something went wrong logging in", error);
         }
-      } else {
-        // User message in case unable to verify email
-        setUserMsg("Something went wrong logging in");
+        // else {
+        //   // User message in case unable to verify email
+        //   setUserMsg("Something went wrong logging in");
+        // }
       }
     } else {
       // show userMsg
@@ -111,4 +115,11 @@ export default function login() {
       </div>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const users = await sanityClient.fetch(userQuery);
+  return {
+    props: { users },
+  };
 }
