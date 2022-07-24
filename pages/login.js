@@ -7,7 +7,7 @@ import mistrilogo from "../public/mistri_logo_svg.svg";
 import { magic } from "../lib/magic-client";
 import { sanityClient } from "../lib/Sanity";
 
-const userQuery = `*[_type == "user"]{ email}`;
+const userQuery = `*[_type == "user1"]{ email}.email`;
 
 export default function login({ users }) {
   const [userMsg, setUserMsg] = useState("");
@@ -37,34 +37,59 @@ export default function login({ users }) {
     setEmail(email);
   };
 
+  const addUser = async () => {
+    const emailBody = {
+      email: email,
+    };
+    const result = await fetch(`/api/addUser`, {
+      body: JSON.stringify(emailBody),
+      method: "POST",
+    });
+    const json = await result.json();
+    console.log(emailBody);
+    return json;
+  };
+
+  const authenticate = async () => {
+    try {
+      // when clicked on the sign in button turn the show "loading..."
+      setIsLoading(true);
+      const didToken = await magic.auth.loginWithMagicLink({ email });
+      console.log({ didToken });
+      if (didToken) {
+        // route to home
+        router.push("/");
+      }
+    } catch (error) {
+      // in case of error
+      console.error("Something went wrong logging in", error);
+    }
+  };
+
   const handleLoginWithEmail = async (e) => {
     e.preventDefault();
     console.log("hi button");
 
     if (email) {
+      const flag = 0;
       for (let index = 0; index < users.length; index++) {
-        const user = users[index].email;
+        const user = users[index];
+        // console.log(user);
         if (email === user) {
-          // log in a user by their email
-          try {
-            // when clicked on the sign in button turn the show "loading..."
-            setIsLoading(true);
-            const didToken = await magic.auth.loginWithMagicLink({ email });
-            console.log({ didToken });
-            if (didToken) {
-              // route to home
-              router.push("/");
-            }
-          } catch (error) {
-            // in case of error
-            console.error("Something went wrong logging in", error);
-          }
+          flag++;
         }
-        // else {
-        //   // User message in case unable to verify email
-        //   setUserMsg("Something went wrong logging in");
-        // }
       }
+      if (flag > 0) {
+        authenticate();
+      } else {
+        setUserMsg("You are not signed up yet. Preparing for signing up... ");
+        addUser();
+        authenticate();
+      }
+
+      // if (email !== user) {
+
+      // }
     } else {
       // show userMsg
       setUserMsg("Enter a valid email address");
@@ -85,6 +110,7 @@ export default function login({ users }) {
 
           <div>
             <input
+              value={email}
               id="email-address"
               name="email"
               type="text"
