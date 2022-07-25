@@ -27,29 +27,5 @@ export default function Home({ services }) {
         <Slideshow />
       </main>
     </div>
-
-    // <div className=" text-black">
-    //   <ul>
-    //     {services?.length > 0 &&
-    //       services.map((service) => (
-    //         <li key={service._id}>
-    //           <Link href="/">
-    //             <a>
-    //               {/* <img src={urlFor(recipe.mainImage).url()} alt={recipe.name} /> */}
-    //               <span>{service.service}</span>
-    //             </a>
-    //           </Link>
-    //         </li>
-    //       ))}
-    //   </ul>
-    // </div>
   );
 }
-
-// export async function getStaticProps() {
-//   const services = await fetchservices();
-//   // const services = JSON.stringify(ser);
-//   return {
-//     props: { services },
-//   };
-// }

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Header from "./components/Header"
+import Header from "./components/Header";
 
 const manage_account = () => {
   return (
@@ -11,12 +11,9 @@ const manage_account = () => {
       <Header />
 
       <main className="pt-14">
-        <div className="sidebar">
-          hello
-        </div>
+        <div className="sidebar">hello</div>
       </main>
     </div>
   );
-}
-export default manage_account
-
+};
+export default manage_account;
