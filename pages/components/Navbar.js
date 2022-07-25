@@ -1,7 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { ChevronDownIcon, MenuIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState, Fragment } from "react";
 import { useRouter } from "next/router";
 import { magic } from "../../lib/magic-client";
@@ -9,7 +9,6 @@ import { magic } from "../../lib/magic-client";
 import Link from "next/link";
 
 import Explore from "./Explore";
-import Sidebar_explore from "./Sidebar_explore";
 
 const Navbar = () => {
   const router = useRouter();
@@ -117,23 +116,59 @@ const Navbar = () => {
         </div>
       )}
 
-      <Disclosure as="nav">
-        <Disclosure.Button className=" md:hidden fixed top-2 right-4  item-center peer justify-center rounded-md p-2 text-gray hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
-          <GiHamburgerMenu className="md:hidden h-6 w-6" aria-hidden="true" />
-        </Disclosure.Button>
-        <div className=" md:hidden p-6 w-1/2 h-screen bg-slate-400 z-10 fixed top-14 -right-96 lg:right-0 peer-focus:right-0 peer:transition ease-out delay-150 duration-200">
-          <div key="sidebar">
-            <h1 className=" cursor-pointer font-bold text-blue-900 w-full">
-              <Sidebar_explore />
-            </h1>
-            <Link href="/login">
-              <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 border-b border-gray-100 pb-4 w-full">
-                Sign in{" "}
-              </h1>
-            </Link>
-          </div>
-        </div>
-      </Disclosure>
+      <Menu as="nav">
+        <Menu.Button className=" md:hidden fixed top-2 right-4  item-center peer justify-center rounded-md p-2 text-gray hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
+          <MenuIcon className="md:hidden h-6 w-6" aria-hidden="true" />
+        </Menu.Button>
+
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          {isLoggedIn ? (
+            <div className=" md:hidden p-6 w-1/2 h-screen bg-slate-400 z-10 fixed top-14 -right-96 lg:right-0 peer-focus:right-0 peer:transition ease-out delay-150 duration-200">
+              <div>
+                <p
+                  className="text-base text-center cursor-pointer font-bold text-blue-900 pb-4 w-full"
+                  onClick={logout}
+                >
+                  Sign out
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className=" md:hidden p-6 w-1/2 h-screen bg-slate-400 z-10 fixed top-14 -right-96 lg:right-0 peer-focus:right-0 peer:transition ease-out delay-150 duration-200">
+              <div>
+                <Link href="/login">
+                  <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 pb-4 w-full">
+                    Sign in{" "}
+                  </h1>
+                </Link>
+              </div>
+            </div>
+          )}
+          {/* <div className=" md:hidden p-6 w-1/2 h-screen bg-slate-400 z-10 fixed top-14 -right-96 lg:right-0 peer-focus:right-0 peer:transition ease-out delay-150 duration-200">
+            <div>
+              <Link href="/login">
+                <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 pb-4 w-full">
+                  Sign in{" "}
+                </h1>
+              </Link>
+              <p
+                className="text-base text-center cursor-pointer font-bold text-blue-900 pb-4 w-full"
+                onClick={logout}
+              >
+                Sign out
+              </p>
+            </div>
+          </div> */}
+        </Transition>
+      </Menu>
     </div>
   );
 };
