@@ -112,14 +112,31 @@ const join = () => {
               />
               <div className="rounded-full">
                 <label
-                  htmlFor="file"
+                  htmlFor="certificate"
                   className="bg-gray-100 py-1.5 pl-2 rounded-l-md text-gray-500"
                 >
                   Certifications (if any):{" "}
                 </label>
                 <input
-                  id="file"
+                  id="certificate"
                   type="file"
+                  accept=".pdf, image/png, image/jpg, image/jpeg"
+                  className="bg-gray-100 text-gray-500 rounded-r-md"
+                  multiple
+                />
+              </div>
+              <div className="rounded-full">
+                <label
+                  htmlFor="image"
+                  className="bg-gray-100 py-1.5 pl-2 rounded-l-md text-gray-500"
+                >
+                  Photo:{" "}
+                </label>
+                <input
+                  id="image"
+                  type="file"
+                  required
+                  accept="image/png, image/jpg, image/jpeg"
                   className="bg-gray-100 text-gray-500 rounded-r-md"
                   multiple
                 />
