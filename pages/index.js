@@ -11,7 +11,6 @@ import { createClient } from "next-sanity";
 import Link from "next/link";
 
 export default function Home({ services }) {
-  console.log(services);
   return (
     <div>
       <Head>

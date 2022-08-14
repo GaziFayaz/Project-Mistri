@@ -6,7 +6,8 @@ export default {
     {
       name: "service",
       title: "Service",
-      type: "string",
+      type: "array",
+      of: [{ type: "string" }],
     },
   ],
 };
