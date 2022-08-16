@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDownIcon } from "@heroicons/react/solid";
-import { ChevronDownIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
-import { sanityClient } from "../lib/Sanity";
-import { ThemeProvider } from "next-themes";
+import {ArrowDownIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon} from "@heroicons/react/solid";
+import React, {useState} from "react";
+import {sanityClient} from "../lib/Sanity";
+import {ThemeProvider} from "next-themes";
 
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import Multiselect from "multiselect-react-dropdown";
@@ -231,18 +231,81 @@ const join = () => {
                 />
               </div>
 
-              <button
-                type="submit"
-                onClick={test}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
-              >
-                Submit
-              </button>
-            </form>
-          </div>
-        </main>
-      </div>
-    </div>
-  );
+                            <input
+                                placeholder="Experience (years)"
+                                type="number"
+                                required
+                                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+                            />
+                            <div className="rounded-full">
+                                <label
+                                    htmlFor="certificate"
+                                    className="bg-gray-100 py-1.5 pl-2 rounded-l-md text-gray-500"
+                                >
+                                    Certifications (if any):{" "}
+                                </label>
+                                <input
+                                    id="certificate"
+                                    type="file"
+                                    onChange={(event) => {
+                                        //   setCertificates([...certificates, {
+                                        //     id: certificates.length,
+                                        //     value: event.target.value
+                                        //   }])
+                                        //     certificates.map(certificate => {
+                                        //       console.log(certificate.value)
+                                        //   })
+                                        //   console.log(event.target.files);
+                                        setCertificates([...certificates,
+                                            {
+                                                id: certificates.length,
+                                                value: event.target.files,
+                                            }
+                                        ])
+                                    }}
+
+                                    accept=".pdf, image/png, image/jpg, image/jpeg"
+                                    className="bg-gray-100 text-gray-500 rounded-r-md"
+                                    multiple
+                                />
+                                <ul>
+                                    {
+                                        certificates.map(certificate => (
+                                            <li key={certificate.id}>{certificate.value}</li>
+                                        ))
+                                    }
+                                </ul>
+
+                            </div>
+                            <div className="rounded-full">
+                                <label
+                                    htmlFor="image"
+                                    className="bg-gray-100 py-1.5 pl-2 rounded-l-md text-gray-500"
+                                >
+                                    Photo:{" "}
+                                </label>
+                                <input
+                                    id="image"
+                                    type="file"
+                                    required
+                                    accept="image/png, image/jpg, image/jpeg"
+                                    className="bg-gray-100 text-gray-500 rounded-r-md"
+                                    multiple
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                onClick={test}
+                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
+                            >
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        </div>
+    );
 };
 export default join;

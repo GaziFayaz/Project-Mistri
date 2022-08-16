@@ -1,19 +1,9 @@
-import Head from "next/head";
-import Header from "./components/Header";
+import React from 'react'
 
 const manage_account = () => {
   return (
-    <div className="bg-homebg">
-      <Head>
-        <title>MISTRI 1.0</title>
-      </Head>
+    <div>manage_account</div>
+  )
+}
 
-      <Header />
-
-      <main className="pt-14">
-        <div className="sidebar">hello</div>
-      </main>
-    </div>
-  );
-};
-export default manage_account;
+export default manage_account
