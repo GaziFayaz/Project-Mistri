@@ -9,7 +9,7 @@ import { sanityClient } from "../lib/Sanity";
 
 const userQuery = `*[_type == "user1"]{ email}.email`;
 
-export default function login({ users }) {
+export default function loginWithEmail({ users }) {
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +29,10 @@ export default function login({ users }) {
       router.events.off("routeChangeError", handleComplete);
     };
   }, [router]);
+
+
+
+  // add the user to the sanity database
 
   const addUser = async () => {
     const emailBody = {
@@ -87,10 +91,6 @@ export default function login({ users }) {
         addUser();
         authenticate();
       }
-
-      // if (email !== user) {
-
-      // }
     } else {
       // show userMsg
       setUserMsg("Enter a valid email address");

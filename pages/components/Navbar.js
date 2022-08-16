@@ -1,10 +1,12 @@
 import { Disclosure } from "@headlessui/react";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { HiOutlineChevronDoubleUp } from "react-icons/hi";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon, MenuIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState, Fragment } from "react";
 import { useRouter } from "next/router";
 import { magic } from "../../lib/magic-client";
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
 
 import Link from "next/link";
 
@@ -14,6 +16,8 @@ const Navbar = () => {
   const router = useRouter();
   // const user = false;
   // const username = false;
+
+  const [showModal, setShowModal] = useState(false);
 
   // State to track status profile button drop-down menu
   const [showDropdown, setShowDropdown] = useState(false);
@@ -27,36 +31,56 @@ const Navbar = () => {
   // function to logout the user and update logged in status
   const logout = async (e) => {
     e.preventDefault();
-    try {
-      await magic.user.logout();
-      const isLoggedIn = await magic.user.isLoggedIn();
-      setIsLoggedIn(isLoggedIn);
-      console.log("User logged Out! isLoggedIn-", isLoggedIn); // => `false`
-    } catch (error) {
-      // Handle errors if required!
-      console.log("could not log out the user", error);
+    let token = sessionStorage.getItem("Token");
+    if (token) {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          router.push("/");
+        })
+        .catch((error) => {
+          // An error happened.
+          console.log(error);
+        });
+      setIsLoggedIn(false);
+      sessionStorage.removeItem("Token");
+    } else {
+      try {
+        await magic.user.logout();
+        const isLoggedIn = await magic.user.isLoggedIn();
+        setIsLoggedIn(isLoggedIn);
+        console.log("User logged Out! isLoggedIn-", isLoggedIn); // => `false`
+      } catch (error) {
+        // Handle errors if required!
+        console.log("could not log out the user", error);
+      }
     }
   };
 
   useEffect(() => {
     (async () => {
-      try {
-        const isLoggedIn = await magic.user.isLoggedIn();
-        setIsLoggedIn(isLoggedIn);
-        console.log("Checking isLoggedIn...", isLoggedIn);
+      let token = sessionStorage.getItem("Token");
+      if (token) {
+        setIsLoggedIn(true);
+      } else {
         try {
-          const { email } = await magic.user.getMetadata();
-          if (email) {
-            console.log({ email });
-            setUsername(email);
-          }
+          const isLoggedIn = await magic.user.isLoggedIn();
+          setIsLoggedIn(isLoggedIn);
+          console.log("Checking isLoggedIn...", isLoggedIn);
+          try {
+            const { email } = await magic.user.getMetadata();
+            if (email) {
+              console.log({ email });
+              setUsername(email);
+            }
+          } catch (error) {
+            // Handle errors if required!
+            console.error("Error retrieving email, error");
+          } // => `true` or `false`
         } catch (error) {
           // Handle errors if required!
-          console.error("Error retrieving email, error");
-        } // => `true` or `false`
-      } catch (error) {
-        // Handle errors if required!
-        console.error("Could not check login information", error);
+          console.error("Could not check login information", error);
+        }
       }
     })();
   }, []);
@@ -106,7 +130,7 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="hidden md:inline-flex items-center">
-          <Link href="/login">
+          <Link href="/signinOption">
             <p className="cursor-pointer hover:text-white font-bold">Sign in</p>
           </Link>
           <Link href="/join">
@@ -116,7 +140,7 @@ const Navbar = () => {
           </Link>
         </div>
       )}
-
+      {/* modal for sign up option */}
       <Menu as="nav">
         <Menu.Button className=" md:hidden fixed top-2 right-4  item-center peer justify-center rounded-md p-2 text-gray hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
           <MenuIcon className="md:hidden h-6 w-6" aria-hidden="true" />
