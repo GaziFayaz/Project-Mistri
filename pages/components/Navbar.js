@@ -109,10 +109,11 @@ const Navbar = () => {
           <Link href="/login">
             <p className="cursor-pointer hover:text-white font-bold">Sign in</p>
           </Link>
-
-          <button className="cursor-pointer ml-4 mr-4 p-4 border-2 py-1 text-center font-bold rounded-full border-black hover:border-white hover:text-white">
-            JOIN
-          </button>
+          <Link href="/join">
+            <button className="cursor-pointer ml-4 mr-4 p-4 border-2 py-1 text-center font-bold rounded-full border-black hover:border-white hover:text-white">
+              JOIN
+            </button>
+          </Link>
         </div>
       )}
 
