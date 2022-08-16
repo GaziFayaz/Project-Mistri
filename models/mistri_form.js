@@ -50,5 +50,7 @@ const FormSchema = new mongoose.Schema({
   img: {
     type: String,
     required: true,
-  },
-});
+  }
+}, {timestamps:true});
+
+export default mongoose.model("mistri_form", FormSchema);

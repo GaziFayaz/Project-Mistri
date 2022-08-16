@@ -29,17 +29,17 @@ const join = () => {
     {
       key: "Waterline",
     },
-  ])
+  ]);
   const [experience, setExperience] = useState(null);
   const [certificates, setCertificates] = useState([
     {
       id: 0,
-      value:"dummy"
+      value: "dummy",
     },
     {
-      id:1,
+      id: 1,
       value: "stupid",
-    }
+    },
   ]);
   const test = (e) => {
     console.log(e);
@@ -82,10 +82,10 @@ const join = () => {
             <h2 className="form-heading text-3xl text-center font-bold">
               Apply for Interview
             </h2>
-            <form className="form pt-8 space-y-4 " >
+            <form className="form pt-8 space-y-4 ">
               <div className="name flex space-x-2 ">
                 <input
-                  placeholder="First Name"
+                  placeholder="First Name*"
                   type="text"
                   required
                   onChange={(e) => {
@@ -142,29 +142,32 @@ const join = () => {
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
               />
               {/* <div className="expertise-select flex "> */}
-                <Multiselect
-                  className="bg-white rounded-lg"
-                  id="css_custom"
-                  displayValue="key"
-                  onKeyPressFn={function noRefCheck() {}}
-                  onSelect={(event)=> {console.log(event)}}
-                  onRemove={(event)=> {console.log(event)}}
-                  // onSearch={(event)=> {console.log(event)}}
-                  hidePlaceholder="true"
-                  avoidHighlightFirstOption="false"
-                  closeIcon="cancel"
-                  placeholder="Choose Expertise(s)"
-                  options={expertises}
-                  style={{
-                    chips : { // To change css for dropdown options
-                      background: "#00D3AD",
-                      color: "black"
-                      },
-                  }
-                    
-                  }
-                />
-                {/* <ChevronDownIcon className="relative right-8 top-2 w-5 h-5 pointer-events-none stroke-gray-300" /> */}
+              <Multiselect
+                className="bg-white rounded-lg"
+                id="css_custom"
+                displayValue="key"
+                onKeyPressFn={function noRefCheck() {}}
+                onSelect={(event) => {
+                  console.log(event);
+                }}
+                onRemove={(event) => {
+                  console.log(event);
+                }}
+                // onSearch={(event)=> {console.log(event)}}
+                hidePlaceholder="true"
+                avoidHighlightFirstOption="false"
+                closeIcon="cancel"
+                placeholder="Choose Expertise(s)"
+                options={expertises}
+                style={{
+                  chips: {
+                    // To change css for dropdown options
+                    background: "#00D3AD",
+                    color: "black",
+                  },
+                }}
+              />
+              {/* <ChevronDownIcon className="relative right-8 top-2 w-5 h-5 pointer-events-none stroke-gray-300" /> */}
               {/* </div> */}
 
               <input
@@ -183,7 +186,7 @@ const join = () => {
                 <input
                   id="certificate"
                   type="file"
-                  onChange= { (event) => {
+                  onChange={(event) => {
                     // setCertificates([...certificates, {
                     //   id: certificates.length,
                     //   value: event.target.value
@@ -191,25 +194,24 @@ const join = () => {
                     //   certificates.map(certificate => {
                     //     console.log(certificate.value)
                     // })
-                    console.log(event.target.files);
-                    setCertificates([... certificates, 
+                    const files = event.target.files;
+                    console.log(files);
+                    setCertificates([
+                      ...certificates,
                       {
                         id: certificates.length,
-                        value: "event.target.files",
-                      }
-                    ])
-                  } }
-                  
+                        value: files[0],
+                      },
+                    ]);
+                  }}
                   accept=".pdf, image/png, image/jpg, image/jpeg"
                   className="bg-gray-100 text-gray-500 rounded-r-md"
                   multiple
                 />
                 <ul>
-                  {
-                    certificates.map(certificate => (
-                      <li key={certificate.id}>{certificate.value}</li>
-                    ))
-                  }
+                  {certificates.map((certificate) => (
+                    <li key={certificate.id}>{certificate.value.name}</li>
+                  ))}
                 </ul>
               </div>
               <div className="rounded-full">
