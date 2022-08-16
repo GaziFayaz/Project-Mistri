@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33a672c8-a7f2-48a6-beff-c067b34f5956" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/Sanity.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Sanity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/components/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/exploreservices.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/exploreservices.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sanity/schemas/schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/sanity/schemas/schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/join.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/join.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/loginWithPhone.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/loginWithPhone.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/manage_account.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/manage_account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/manage_account_step1.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +47,7 @@
     "node.js.selected.package.standard": "",
     "nodejs_package_manager_path": "npm",
     "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -63,11 +65,23 @@
       <option name="presentableId" value="Default" />
       <updated>1658241845507</updated>
       <workItem from="1658241889301" duration="13895000" />
+      <workItem from="1660656982611" duration="7208000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
