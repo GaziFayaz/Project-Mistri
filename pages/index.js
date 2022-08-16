@@ -5,12 +5,14 @@ import styles from "../styles/Home.module.css";
 import Center from "./components/Center";
 import Header from "./components/Header";
 import Slideshow from "./components/Slideshow";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { sanityClient } from "../lib/Sanity";
 import { createClient } from "next-sanity";
 // import { fetchservices } from "../lib/fetchservices";
 import Link from "next/link";
 
-export default function Home({ services }) {
+export default function Home({ message }) {
   return (
     <div>
       <Head>
@@ -20,6 +22,7 @@ export default function Home({ services }) {
       <Header />
 
       <main className=" bg-homebg">
+        <ToastContainer />
         <div>
           <Center />
         </div>
