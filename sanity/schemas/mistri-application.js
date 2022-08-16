@@ -4,12 +4,12 @@ export default {
     type: "document",
     fields: [
       {
-        name: "first name",
+        name: "first_name",
         title: "First Name",
         type: "string",
       },
       {
-        name: "last name",
+        name: "last_name",
         title: "Last Name",
         type: "string",
       },
@@ -19,25 +19,46 @@ export default {
         type: "string",
       },
       {
-        name: "phone number",
+        name: "phone_number",
         title: "Phone Number",
-        type: "",
-      },
-      {
-        name: "email",
-        title: "Email",
         type: "string",
       },
       {
-        name: "email",
-        title: "Email",
+        name: "address",
+        title: "Address",
         type: "string",
       },
       {
-        name: "email",
-        title: "Email",
-        type: "string",
+        name: "dateOfBirth",
+        title: "Date of Birth",
+        type: "date",
       },
+      {
+        name: "expertises",
+        title: "Expertises",
+        type: "array",
+        of: [{
+          type: "string"
+        }]
+      },
+      {
+        name: "experience",
+        title: "Experience",
+        type: "number",
+      },
+      {
+        name: "certifications",
+        title: "Certifications",
+        type: "array",
+        of: [
+          {type: "file"}
+        ]
+      },
+      {
+        name: "photo",
+        title: "Photo",
+        type: "image",
+      }
     ],
   };
   

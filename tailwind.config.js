@@ -3,6 +3,7 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode:"class",
   theme: {
     screens:{
       'sm': {'max' : '660px'},
@@ -10,6 +11,8 @@ module.exports = {
     },
     fontFamily: {
       "poppins": "Poppins, sans-serif",
+      "monts": "Montserrat, sans-serif",
+      "dosis": "Dosis, sans-serif",
     },
     extend: {
       colors: {
