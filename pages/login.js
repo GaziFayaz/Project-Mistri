@@ -30,13 +30,6 @@ export default function login({ users }) {
     };
   }, [router]);
 
-  const handleOnChangeEmail = (e) => {
-    setUserMsg(""); // deletes user message if starts typing again
-    console.log("event", e);
-    const email = e.target.value;
-    setEmail(email);
-  };
-
   const addUser = async () => {
     const emailBody = {
       email: email,
@@ -49,6 +42,7 @@ export default function login({ users }) {
     console.log(emailBody);
     return json;
   };
+
 
   const authenticate = async () => {
     try {
@@ -65,6 +59,13 @@ export default function login({ users }) {
       console.error("Something went wrong logging in", error);
     }
   };
+                         
+  const handleOnChangeEmail = (e) => {
+    setUserMsg(""); // deletes user message if starts typing again
+    console.log("event", e);
+    const email = e.target.value;
+    setEmail(email);
+  };
 
   const handleLoginWithEmail = async (e) => {
     e.preventDefault();
@@ -73,7 +74,7 @@ export default function login({ users }) {
     if (email) {
       const flag = 0;
       for (let index = 0; index < users.length; index++) {
-        const user = users[index];
+        const user = users[index]; 
         // console.log(user);
         if (email === user) {
           flag++;
