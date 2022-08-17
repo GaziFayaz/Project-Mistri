@@ -1,7 +1,10 @@
+import Image from "next/image";
 import React, { useState } from "react";
+import me from "../../public/me.jpg";
 
 const card = () => {
   const [ImageButton, setImageButton] = useState(true);
+  const [image, setImage] = useState([]);
 
   const uploadImageButton = () => {};
   return (
@@ -28,16 +31,29 @@ const card = () => {
         </div> */}
         <div className="flex flex-row items-center py-4">
           <div className=" items-center pr-4 pl-4 flex-grow">
-            <img
+            <Image
+              src={me}
+              defaultValue={image}
+              height={100}
+              width={100}
               className="mb-3 w-24 h-24 rounded-full shadow-lg"
-              src=""
-              alt="Bonnie image"
             />
             <input
+              id="image"
               type="file"
-              id="userImage"
-              onChange={uploadImageButton}
-              className=""
+              onChange={(event) => {
+                const files = event.target.files;
+                console.log(files);
+                setImage([
+                  ...image,
+                  {
+                    id: image.length,
+                    value: files[0],
+                  },
+                ]);
+              }}
+              accept=".pdf, image/png, image/jpg, image/jpeg"
+              className="bg-gray-100 text-gray-500 rounded-r-md cursor-pointer"
             />
             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
               Bonnie Green
