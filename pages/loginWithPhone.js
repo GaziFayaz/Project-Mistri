@@ -37,30 +37,30 @@ const loginWithPhone = () => {
         setPhn(phn);
     };
 
-    const handleLoginWithPhone = (e) => {
-        e.preventDefault();
-        const phnPattern = /^[0][1][^204][0-9]*$/g;
-        if (countryCode.concat(phn).length === 14 && phnPattern.test(phn)) {
-            setExpand(true);
-            capthaPopup();
-            const appVerifier = window.recaptchaVerifier;
-            const phoneNumber = countryCode.concat(phn);
-            console.log(phoneNumber);
-            signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-                .then((confirmationResult) => {
-                    // SMS sent. Prompt user to type the code from the message, then sign the
-                    // user in with confirmationResult.confirm(code).
-                    window.confirmationResult = confirmationResult;
-                    // ...
-                })
-                .catch((error) => {
-                    // Error; SMS not sent
-                    console.log(error);
-                });
-        } else {
-            setUserMsg("Enter a valid Number");
-        }
-    };
+  const handleLoginWithPhone = (e) => {
+    e.preventDefault();
+    const phnPattern = /^[0][1][^0124][0-9]*$/g;
+    if (countryCode.concat(phn).length === 14 && phnPattern.test(phn)) {
+      setExpand(true);
+      capthaPopup();
+      const appVerifier = window.recaptchaVerifier;
+      const phoneNumber = countryCode.concat(phn);
+      console.log(phoneNumber);
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          // ...
+        })
+        .catch((error) => {
+          // Error; SMS not sent
+          console.log(error);
+        });
+    } else {
+      setUserMsg("Enter a valid Number");
+    }
+  };
 
     const verifyOTP = (e) => {
         // e.preventDefault();
