@@ -96,7 +96,6 @@ const Navbar = () => {
       <div className="hidden md:inline-flex cursor-pointer hover:text-white">
         <Explore />
       </div>
-
       {isLoggedIn ? (
         <div className="hidden md:inline-flex flex-col items-center mt-14 space-y-3 pt-1">
           <button
