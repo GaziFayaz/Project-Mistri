@@ -13,6 +13,7 @@
     "@heroicons/react": "^1.0.6",
     "@portabletext/react": "^1.0.6",
     "@sanity/image-url": "^1.0.1",
+    "axios": "^0.27.2",
     "firebase": "^9.9.1",
     "formik": "^2.2.9",
     "magic-sdk": "^8.1.1",
