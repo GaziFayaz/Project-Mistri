@@ -5,6 +5,9 @@ const nextConfig = {
 };
 
 module.exports = {
+  images:{
+    domains:["res.cloudinary.com"]
+  },
   nextConfig,
   // resolve: {
   //   alias: {
