@@ -113,7 +113,6 @@ const join = () => {
       };
       console.log(newForm);
       await axios.post("http://localhost:3000/api/mistriApplication", newForm);
-      
     } catch (error) {
       console.log("error", error);
     }
