@@ -10,20 +10,26 @@ const addServices = () => {
     console.log(ser);
     setService(ser);
   };
+  const addService = async () => {
+    const Body = {
+      service: service,
+    };
+    const result = await fetch(`/api/services`, {
+      body: JSON.stringify(Body),
+      method: "POST",
+    });
+    const json = await result.json();
+    console.log(Body);
+    return json;
+  };
+
   // const addService = async () => {
-  //   const Body = {
+  //   const newForm = {
   //     services: service,
   //   };
-  //   const result = await fetch(`/api/addServicesapi`, {
-  //     body: JSON.stringify(Body),
-  //     method: "POST",
-  //   });
-  //   const json = await result.json();
-  //   console.log(Body);
-  //   return json;
+  //   console.log(newForm);
+  //   await axios.post("http://localhost:3000/api/addServicesapi", newForm);
   // };
-
-    
 
   const handleOnsubmit = async (e) => {
     e.preventDefault();
