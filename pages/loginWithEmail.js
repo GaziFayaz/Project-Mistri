@@ -30,8 +30,6 @@ export default function loginWithEmail({ users }) {
     };
   }, [router]);
 
-
-
   // add the user to the sanity database
 
   const addUser = async () => {
@@ -46,7 +44,6 @@ export default function loginWithEmail({ users }) {
     console.log(emailBody);
     return json;
   };
-
 
   const authenticate = async () => {
     try {
@@ -63,7 +60,7 @@ export default function loginWithEmail({ users }) {
       console.error("Something went wrong logging in", error);
     }
   };
-                         
+
   const handleOnChangeEmail = (e) => {
     setUserMsg(""); // deletes user message if starts typing again
     console.log("event", e);
@@ -78,7 +75,7 @@ export default function loginWithEmail({ users }) {
     if (email) {
       const flag = 0;
       for (let index = 0; index < users.length; index++) {
-        const user = users[index]; 
+        const user = users[index];
         // console.log(user);
         if (email === user) {
           flag++;
