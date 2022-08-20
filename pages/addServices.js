@@ -23,18 +23,13 @@ const addServices = () => {
   //   return json;
   // };
 
-  const addService = async () => {
-    let newForm = new FormData({
-      services: service,
-    });
-    console.log(newForm);
-    await axios.post("http://localhost:3000/api/addServicesapi", newForm);
-  };
-
   const handleOnsubmit = async (e) => {
     e.preventDefault();
-    addService();
-    // router.push("/api/addServicesapi");
+    let newForm = {
+      services: service,
+    };
+    console.log(newForm);
+    await axios.post("http://localhost:3000/api/addServicesapi", newForm);
   };
 
   return (
