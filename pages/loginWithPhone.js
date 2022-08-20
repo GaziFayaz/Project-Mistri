@@ -3,13 +3,20 @@ import mistrilogo from "../public/mistri_logo_svg.svg";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { auth } from "../firebase";
-import { RecaptchaVerifier, signInWithPhoneNumber, signOut } from "firebase/auth";
+import {
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  signOut,
+} from "firebase/auth";
 import { useRouter } from "next/router";
 
 const loginWithPhone = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const countryCode = "+88";
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [userMsg, setUserMsg] = useState("");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [phn, setPhn] = useState("");
   const [expand, setExpand] = useState(false);
   const [otp, setOtp] = useState("");
@@ -36,7 +43,7 @@ const loginWithPhone = () => {
 
   const handleLoginWithPhone = (e) => {
     e.preventDefault();
-    const phnPattern = /^[0][1][^204][0-9]*$/g;
+    const phnPattern = /^[0][1][^0124][0-9]*$/g;
     if (countryCode.concat(phn).length === 14 && phnPattern.test(phn)) {
       setExpand(true);
       capthaPopup();

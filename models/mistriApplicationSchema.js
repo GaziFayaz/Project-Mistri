@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const FormSchema = new mongoose.Schema({
+const MistriApplicationSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -30,25 +30,32 @@ const FormSchema = new mongoose.Schema({
     required: true,
   },
   expertises: {
-    type: [String],
+    type: [
+      {
+        key:{
+          type: String,
+          required:true
+        },
+        value:{
+          type:String,
+          required:true
+        }
+      }
+    ],
     required: true,
   },
   experience: {
     type: Number,
     required: true,
   },
-  certificates: {
-    type: [
-      {
-        certificate: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
-  },
-  img: {
+  certificate: {
     type: String,
     required: true,
   },
-});
+  image: {
+    type: String,
+    required: true,
+  },
+}, {timestamps:true});
+
+export default mongoose.models.mistri_form || mongoose.model("mistri_form", MistriApplicationSchema);
