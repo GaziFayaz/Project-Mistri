@@ -19,19 +19,15 @@ const join = () => {
   const [dateOfBirth, setDateOfBirth] = useState();
   const [expertisesList, setExpertisesList] = useState([
     {
-      key: "carpentry",
       value: "Carpentry",
     },
     {
-      key: "painting",
       value: "Painting",
     },
     {
-      key: "tile work",
       value: "Tile Work",
     },
     {
-      key: "waterline",
       value: "Waterline",
     },
   ]);
@@ -39,6 +35,19 @@ const join = () => {
   const [experience, setExperience] = useState();
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
+
+  const addMistri = async () => {
+    const Body = {
+      email: email,
+    };
+    const result = await fetch(`/api/mistriApplication`, {
+      body: JSON.stringify(Body),
+      method: "POST",
+    });
+    const json = await result.json();
+    console.log(Body);
+    return json;
+  };
 
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
@@ -164,6 +173,7 @@ const join = () => {
                   setFirstName(e.target.value);
                   console.log(firstName);
                 }}
+                value={firstName}
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
               />
               <input
@@ -174,6 +184,7 @@ const join = () => {
                   setLastName(e.target.value);
                   console.log(lastName);
                 }}
+                value={lastName}
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
               />
             </div>
@@ -185,6 +196,7 @@ const join = () => {
                 setEmail(e.target.value);
                 console.log(email);
               }}
+              value={email}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
             />
             <input
@@ -195,6 +207,7 @@ const join = () => {
                 setPhoneNumber(e.target.value);
                 console.log(phoneNumber);
               }}
+              value={phoneNumber}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
             />
             <input
@@ -205,6 +218,7 @@ const join = () => {
                 setAddress(e.target.value);
                 console.log(address);
               }}
+              value={address}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
             />
             <input
@@ -215,6 +229,7 @@ const join = () => {
                 setDateOfBirth(e.target.value);
                 console.log(dateOfBirth);
               }}
+              value={dateOfBirth}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
             />
             <div className="expertise-select flex">
@@ -245,6 +260,7 @@ const join = () => {
                     color: "black",
                   },
                 }}
+                value={expertises}
               />
               <ChevronDownIcon className="relative right-8 top-2 w-5 h-5 pointer-events-none stroke-gray-300" />
             </div>
@@ -257,6 +273,7 @@ const join = () => {
                 setExperience(e.target.value);
                 console.log(experience);
               }}
+              value={experience}
             />
             <div className="rounded-full">
               <label

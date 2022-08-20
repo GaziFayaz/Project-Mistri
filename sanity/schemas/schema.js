@@ -9,7 +9,7 @@ import blockContent from "./blockContent";
 import services from "./services";
 // import post from "./post";
 import user1 from "./user1";
-import application from "./mistri-application";
+import mistriApplicationSchema from "./mistriApplicationSchema";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -23,7 +23,7 @@ export default createSchema({
     // post,
     user1,
     services,
-    application,
+    mistriApplicationSchema,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,
