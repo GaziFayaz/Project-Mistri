@@ -1,6 +1,5 @@
 import dbConnect from "../../lib/mongo";
 import ServicesSchema from "../../models/services";
-import services from "../../models/services";
 
 import { didToken } from "../loginWithEmail";
 
