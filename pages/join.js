@@ -10,6 +10,10 @@ import mistrilogo from "../public/mistri_logo_svg.svg";
 import Multiselect from "multiselect-react-dropdown";
 import axios from "axios";
 
+const expertise = [];
+const certificateUrl = "";
+const imageUrl = "";
+
 const join = () => {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
@@ -19,35 +23,48 @@ const join = () => {
   const [dateOfBirth, setDateOfBirth] = useState();
   const [expertisesList, setExpertisesList] = useState([
     {
+      key: "carpentry",
       value: "Carpentry",
     },
     {
+      key: "painting",
       value: "Painting",
     },
     {
+      key: "tilework",
       value: "Tile Work",
     },
     {
-      value: "Waterline",
+      key: "waterline",
+      value: "Water line",
     },
   ]);
   const [expertises, setExpertises] = useState([]);
-  const [experience, setExperience] = useState();
+  const [experience, setExperience] = useState(null);
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
-  const addMistri = async () => {
-    const Body = {
-      email: email,
-    };
-    const result = await fetch(`/api/mistriApplication`, {
-      body: JSON.stringify(Body),
-      method: "POST",
-    });
-    const json = await result.json();
-    console.log(Body);
-    return json;
-  };
+  // const addMistri = async () => {
+  //   const Body = {
+  //     firstName: firstName,
+  //     lastName: lastName,
+  //     email: email,
+  //     phoneNumber: phoneNumber,
+  //     address: address,
+  //     dateOfBirth: dateOfBirth,
+  //     expertises: expertise,
+  //     experience: experience,
+  //     certificate: certificateUrl,
+  //     image: imageUrl,
+  //   };
+  //   const result = await fetch(`/api/mistriApplication`, {
+  //     body: JSON.stringify(Body),
+  //     method: "POST",
+  //   });
+  //   const json = await result.json();
+  //   console.log(Body);
+  //   return json;
+  // };
 
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
@@ -58,6 +75,15 @@ const join = () => {
     };
     reader.readAsDataURL(changeEvent.target.files[0]);
   }
+
+  const handleOnSubmit1 = () => {
+    const expertise = [];
+    for (let key in expertises) {
+      // console.log(expertises[k].value);
+      expertise.append(expertises[k].value);
+    }
+    console.log(expertise);
+  };
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
@@ -85,7 +111,7 @@ const join = () => {
 
       // setUploadData(data);
       console.log("data", data1);
-      const certificateUrl = data1.secure_url;
+      certificateUrl = data1.secure_url;
       console.log(certificateUrl);
 
       const fileInput2 = Array.from(form.elements).find(
@@ -105,23 +131,49 @@ const join = () => {
         }
       ).then((r) => r.json());
       console.log("data", data2);
-      const imageUrl = data2.secure_url;
+      imageUrl = data2.secure_url;
       console.log(imageUrl);
 
-      const newForm = {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        address,
-        dateOfBirth,
-        expertises,
-        experience,
+      for (let key in expertises) {
+        // console.log(expertises[k].value);
+        expertise.push(expertises[key].value);
+      }
+      console.log("expertise is " + expertise);
+
+      const Body = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        dateOfBirth: dateOfBirth,
+        expertises: expertise,
+        experience: experience,
         certificate: certificateUrl,
         image: imageUrl,
       };
-      console.log(newForm);
-      await axios.post("http://localhost:3000/api/mistriApplication", newForm);
+      const result = await fetch(`/api/mistriApplication`, {
+        body: JSON.stringify(Body),
+        method: "POST",
+      });
+      const json = await result.json();
+      console.log(Body);
+      return json;
+
+      // const newForm = {
+      //   firstName,
+      //   lastName,
+      //   email,
+      //   phoneNumber,
+      //   address,
+      //   dateOfBirth,
+      //   expertises: expertise,
+      //   experience,
+      //   certificate: certificateUrl,
+      //   image: imageUrl,
+      // };
+      // console.log(newForm);
+      // await axios.post("http://localhost:3000/api/mistriApplication", newForm);
     } catch (error) {
       console.log("error", error);
     }
@@ -241,7 +293,6 @@ const join = () => {
                 onSelect={(event) => {
                   setExpertises(event);
                   // console.log(expertises);
-                  console.log(expertises);
                 }}
                 onRemove={(event) => {
                   setExpertises(event);
@@ -260,7 +311,7 @@ const join = () => {
                     color: "black",
                   },
                 }}
-                value={expertises}
+                value={expertise}
               />
               <ChevronDownIcon className="relative right-8 top-2 w-5 h-5 pointer-events-none stroke-gray-300" />
             </div>

@@ -8,6 +8,7 @@ export default async function handler(req, res) {
           first_name: data.firstName,
           last_name: data.lastName,
           email: data.email,
+          phone_number: data.phoneNumber,
           address: data.address,
           dateOfBirth: data.dateOfBirth,
           expertises: data.expertises,
