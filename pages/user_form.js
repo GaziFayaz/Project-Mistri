@@ -13,20 +13,24 @@ import "react-toastify/dist/ReactToastify.css";
 import { async } from "@firebase/util";
 
 const user_form = () => {
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [address, setAddress] = useState();
-  const [dateOfBirth, setDateOfBirth] = useState();
+  const [imageSrc, setImageSrc] = useState();
+  function handleOnChange(changeEvent) {
+    const reader = new FileReader();
 
-  const [image, setImage] = useState(null);
-  const uploadToClient = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const tmpImage = e.target.files[0];
-      setImage(tmpImage);
-    }
-  };
+    reader.onload = function (onLoadEvent) {
+      setImageSrc(onLoadEvent.target.result);
+      setUploadData(undefined);
+    };
+    reader.readAsDataURL(changeEvent.target.files[0]);
+  }
+
+  // function handleOnSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   try{
+  //     const form 
+  //   }
+  // };
 
   return (
     <div className=" h-screen bg-homebg inset-0 ">
@@ -35,8 +39,8 @@ const user_form = () => {
           <div className="flex-">
             <Image src={mistrilogo} height={350} width={1000} className="" />
 
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Sign in
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-800">
+              Registration
             </h2>
           </div>
 

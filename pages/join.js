@@ -179,8 +179,8 @@ const join = () => {
     }
   };
   return (
-    <div className="md:inline-flex sm:flex-col bg-homebg w-screen min-h-screen">
-      <header className="bg-header pr-5 md:max-w-sm">
+    <div className="md:flex min-h-screen">
+      <header className="bg-header pr-5 md:max-w-sm md:min-h-screen">
         <div className="logoButton flex flex-grow items-center">
           <Link href="/">
             <div className="pr-7 pb-2 pl-4 pt-2">
@@ -206,8 +206,8 @@ const join = () => {
           </h3>
         </div>
       </header>
-      <main className="bg-homebg pl-5 pr-5 py-8 h-full md:w-2/3 md:flex md:items-center">
-        <div className="max-w-2xl mx-auto ">
+      <main className="bg-homebg pl-5 pr-5 py-8 min-h-screen w-full md:flex md:items-center">
+        <div className="max-w-2xl mx-auto items-center">
           <h2 className="form-heading text-3xl text-center font-bold">
             Apply for Interview
           </h2>
