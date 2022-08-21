@@ -46,7 +46,7 @@ export default {
     {
       name: "experience",
       title: "Experience",
-      type: "number",
+      type: "string",
     },
     {
       name: "certification",
