@@ -40,7 +40,7 @@ const join = () => {
     },
   ]);
   const [expertises, setExpertises] = useState([]);
-  const [experience, setExperience] = useState(null);
+  const [experience, setExperience] = useState();
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
@@ -75,15 +75,6 @@ const join = () => {
     };
     reader.readAsDataURL(changeEvent.target.files[0]);
   }
-
-  const handleOnSubmit1 = () => {
-    const expertise = [];
-    for (let key in expertises) {
-      // console.log(expertises[k].value);
-      expertise.append(expertises[k].value);
-    }
-    console.log(expertise);
-  };
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();

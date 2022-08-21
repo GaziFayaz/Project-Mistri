@@ -20,29 +20,39 @@ const user_form = () => {
 
     reader.onload = function (onLoadEvent) {
       setImageSrc(onLoadEvent.target.result);
-      setUploadData(undefined);
+      // setUploadData(undefined);
     };
     reader.readAsDataURL(changeEvent.target.files[0]);
   }
 
-  function handleOnSubmit = async (event) => {
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
 
-    try{
-      const form 
+    try {
+      const form = event.currentTarget;
+      const fileInput = Array.from(form.elements).find(
+        ({ name }) => name === "image"
+      );
+      console.log(fileInput);
+      const formData = new FormData();
+      for (const image of fileInput.files) {
+        formData.append("file", image);
+      }
+      formData.append("upload_preset", "mistri-application");
+      const data = await fetch(
+        "https://api.cloudinary.com/v1_1/dqbr3ydia/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      ).then((r) => r.json());
+      console.log("data", data);
+      const imageUrl = data.secure_url;
+      console.log(imageUrl);
+    } catch (error) {
+      console.log("error", error);
     }
-  }
-
-  toast.info("Fill in the required fields", {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-
+  };
   return (
     <div className=" min-h-screen bg-homebg inset-0 ">
       <ToastContainer />
@@ -57,7 +67,8 @@ const user_form = () => {
           </div>
 
           <div>
-            <form className="form pt-8 space-y-4 ">
+            <form className="form pt-8 space-y-4 "
+            onSubmit = { handleOnSubmit }>
               <div className="name flex space-x-2 ">
                 <input
                   placeholder="First Name-[Required]"
@@ -133,8 +144,10 @@ const user_form = () => {
                 className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:border-green-700  dark:placeholder-gray-400"
                 id="image"
                 type="file"
-                onChange={uploadToClient}
+                name="image"
+                onChange={handleOnChange}
               />
+              {imageSrc && <img src={imageSrc} height={200} width={200} />}
               <button
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
