@@ -8,7 +8,6 @@ import Image from "next/image";
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import { ToastContainer, toast } from "react-toastify";
 import { didToken } from "./loginWithEmail";
-import FourOhFour from "../lib/FourOhFour";
 
 import "react-toastify/dist/ReactToastify.css";
 import { async } from "@firebase/util";
@@ -54,8 +53,7 @@ const user_form = () => {
     }
   };
   return (
-    <div className=" min-h-screen bg-homebg inset-0 ">
-      <ToastContainer />
+    <div className=" h-screen bg-homebg inset-0 ">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8">
           <div className="flex-">
@@ -78,6 +76,7 @@ const user_form = () => {
                     setFirstName(e.target.value);
                     console.log(firstName);
                   }}
+                  value={firstName}
                   className=" appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
                 />
 
@@ -88,6 +87,7 @@ const user_form = () => {
                     setLastName(e.target.value);
                     console.log(lastName);
                   }}
+                  value={lastName}
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
                 />
               </div>
