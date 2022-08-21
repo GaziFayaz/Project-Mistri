@@ -44,28 +44,6 @@ const join = () => {
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
-  // const addMistri = async () => {
-  //   const Body = {
-  //     firstName: firstName,
-  //     lastName: lastName,
-  //     email: email,
-  //     phoneNumber: phoneNumber,
-  //     address: address,
-  //     dateOfBirth: dateOfBirth,
-  //     expertises: expertise,
-  //     experience: experience,
-  //     certificate: certificateUrl,
-  //     image: imageUrl,
-  //   };
-  //   const result = await fetch(`/api/mistriApplication`, {
-  //     body: JSON.stringify(Body),
-  //     method: "POST",
-  //   });
-  //   const json = await result.json();
-  //   console.log(Body);
-  //   return json;
-  // };
-
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
 
@@ -150,21 +128,6 @@ const join = () => {
       const json = await result.json();
       console.log(Body);
       return json;
-
-      // const newForm = {
-      //   firstName,
-      //   lastName,
-      //   email,
-      //   phoneNumber,
-      //   address,
-      //   dateOfBirth,
-      //   expertises: expertise,
-      //   experience,
-      //   certificate: certificateUrl,
-      //   image: imageUrl,
-      // };
-      // console.log(newForm);
-      // await axios.post("http://localhost:3000/api/mistriApplication", newForm);
     } catch (error) {
       console.log("error", error);
     }

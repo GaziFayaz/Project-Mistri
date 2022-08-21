@@ -13,7 +13,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { async } from "@firebase/util";
 
 const user_form = () => {
+  const router = useRouter();
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [address, setAddress] = useState();
+  const [dateOfBirth, setDateOfBirth] = useState();
   const [imageSrc, setImageSrc] = useState();
+
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
 
@@ -48,6 +56,24 @@ const user_form = () => {
       console.log("data", data);
       const imageUrl = data.secure_url;
       console.log(imageUrl);
+      // mutation of userForm
+      const Body = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        dateOfBirth: dateOfBirth,
+        image: imageUrl,
+      };
+      const result = await fetch(`/api/userForm`, {
+        body: JSON.stringify(Body),
+        method: "POST",
+      });
+      const json = await result.json();
+      console.log(Body);
+      router.push("/");
+      return json;
     } catch (error) {
       console.log("error", error);
     }
@@ -65,8 +91,7 @@ const user_form = () => {
           </div>
 
           <div>
-            <form className="form pt-8 space-y-4 "
-            onSubmit = { handleOnSubmit }>
+            <form className="form pt-8 space-y-4 " onSubmit={handleOnSubmit}>
               <div className="name flex space-x-2 ">
                 <input
                   placeholder="First Name-[Required]"
