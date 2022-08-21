@@ -40,7 +40,7 @@ const join = () => {
     },
   ]);
   const [expertises, setExpertises] = useState([]);
-  const [experience, setExperience] = useState(null);
+  const [experience, setExperience] = useState();
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
 
@@ -324,7 +324,7 @@ const join = () => {
                 setExperience(e.target.value);
                 console.log(experience);
               }}
-              value={experience}
+              // value={experience}
             />
             <div className="rounded-full">
               <label
