@@ -33,16 +33,8 @@ const addServices = () => {
 
   const handleOnsubmit = async (e) => {
     e.preventDefault();
-    
-    try{
-      const newService = {
-      services: service,
-    };
-    console.log(newService);
-    await axios.post("http://localhost:3000/api/addServicesapi", newService);
-    }catch(error){
-      console.log("error",error)
-    }
+    addService();
+    // router.push("/api/addServicesapi");
   };
 
   return (
