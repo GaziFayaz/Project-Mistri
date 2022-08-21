@@ -8,10 +8,10 @@ import Link from "next/link";
 import mistrilogo from "../public/mistri_logo_svg.svg";
 
 const adminDashboard = () => {
-  const [showService, setShowService] = useState(true);
+  const [showService, setShowService] = useState();
   const [serviceName, setServiceName] = useState();
   const [servicePrice, setServicePrice] = useState();
-  const [serviceImage, setServiceImage] = useState();
+  const [image, setImage] = useState();
   const [showMistri, setShowMistri] = useState(false);
   const [showHireReqs, setShowHireReqs] = useState(false);
 
@@ -54,31 +54,26 @@ const adminDashboard = () => {
       const result = await fetch(`/api/services`, {
         body: JSON.stringify(Body),
         method: "POST",
-      })
-      console.log(Body)
-      console.log(result)
+      });
+      console.log(Body);
+      console.log(result);
     } catch (error) {
       console.log("error", error);
     }
   };
+
+  const handleOnSubmitMistri = async (event) => {
+
+  }
   return (
     <div className="bg-homebg min-h-screen flex">
-      {/* <div className="bg-header">
-      <Link href="/">
-        <div className="flex items-center pl-4">
-          <Image
-            src={mistrilogo}
-            height={55}
-            width={55}
-            className="cursor-pointer"
-          />
-        </div>
-      </Link>
-      </div> */}
-
-      <div className="overflow-y-auto w-64 py-4 px-3 h-screen bg-header rounded-b-xl dark:bg-gray-800">
+      <div className=" w-64 py-4 px-3 w-30 h-screen bg-header rounded-b-xl dark:bg-gray-800 sm:max-w-min md:max-w-lg">
         <ul className="space-y-2">
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={(e) => {
+            setShowService(true);
+            setShowHireReqs(false);
+            setShowMistri(false);
+          }}>
             <svg
               className="w-6 h-6"
               fill="none"
@@ -95,7 +90,11 @@ const adminDashboard = () => {
             </svg>
             <span className="ml-3 font-bold">Service</span>
           </li>
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer" onClick={(e) => {
+            setShowService(false);
+            setShowHireReqs(false);
+            setShowMistri(true);
+          }}>
             <svg
               className="w-6 h-6"
               fill="none"
@@ -112,7 +111,11 @@ const adminDashboard = () => {
             </svg>
             <span className="ml-3 whitespace-nowrap font-bold">Mistri</span>
           </li>
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer" onClick={(e) => {
+            setShowService(false);
+            setShowHireReqs(true);
+            setShowMistri(false);
+          }}>
             <svg
               className="w-6 h-6"
               fill="none"
@@ -154,7 +157,7 @@ const adminDashboard = () => {
       </div>
 
       {showService && (
-        <div className="pl-5 pr-5 py-8 min-h-screen w-full ">
+        <div className="pl-5 pr-5 py-8 min-h-screen w-full">
           <form
             className="space-y-5 items-center justify-center"
             onSubmit={handleOnSubmitService}
@@ -169,7 +172,7 @@ const adminDashboard = () => {
               required
               onChange={(e) => {
                 setServiceName(e.target.value);
-                console.log(serviceName)
+                console.log(serviceName);
               }}
             />
             <input
@@ -194,7 +197,6 @@ const adminDashboard = () => {
                   Service Image:{" "}
                 </label>
                 <input
-
                   type="file"
                   id="image"
                   name="image"
@@ -206,8 +208,8 @@ const adminDashboard = () => {
                 />
               </div>
 
-              {serviceImage && (
-                <img src={serviceImage} height={200} width={200} />
+              {image && (
+                <img src={image} height={200} width={200} />
               )}
             </div>
             <button
