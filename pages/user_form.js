@@ -14,13 +14,24 @@ import "react-toastify/dist/ReactToastify.css";
 import { async } from "@firebase/util";
 
 const user_form = () => {
-  const [image, setImage] = useState(null);
-  const uploadToClient = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const tmpImage = e.target.files[0];
-      setImage(tmpImage);
+  const [imageSrc, setImageSrc] = useState();
+  function handleOnChange(changeEvent) {
+    const reader = new FileReader();
+
+    reader.onload = function (onLoadEvent) {
+      setImageSrc(onLoadEvent.target.result);
+      setUploadData(undefined);
+    };
+    reader.readAsDataURL(changeEvent.target.files[0]);
+  }
+
+  function handleOnSubmit = async (event) => {
+    event.preventDefault();
+
+    try{
+      const form 
     }
-  };
+  }
 
   toast.info("Fill in the required fields", {
     position: "top-right",
@@ -33,15 +44,15 @@ const user_form = () => {
   });
 
   return (
-    <div className=" h-screen bg-homebg inset-0 ">
+    <div className=" min-h-screen bg-homebg inset-0 ">
       <ToastContainer />
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8">
           <div className="flex-">
             <Image src={mistrilogo} height={350} width={1000} className="" />
 
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Sign in
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-800">
+              Registration
             </h2>
           </div>
 
