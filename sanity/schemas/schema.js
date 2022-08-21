@@ -10,6 +10,7 @@ import services from "./services";
 // import post from "./post";
 import user1 from "./user1";
 import mistriApplicationSchema from "./mistriApplicationSchema";
+import userFormSchema from "./userFormSchema";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -24,6 +25,7 @@ export default createSchema({
     user1,
     services,
     mistriApplicationSchema,
+    userFormSchema,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,
