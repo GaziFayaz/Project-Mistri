@@ -12,7 +12,16 @@ const userQuery = `*[_type == "user1"]{ email}.email`;
 export default function loginWithEmail({ users }) {
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
+  const [isNewUser, setIsNewUser] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRegistration, setIsRegistration] = useState(false);
+
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [address, setAddress] = useState();
+  const [dateOfBirth, setDateOfBirth] = useState();
+  const [image, setImage] = useState();
 
   const router = useRouter();
 
@@ -29,6 +38,15 @@ export default function loginWithEmail({ users }) {
       router.events.off("routeChangeError", handleComplete);
     };
   }, [router]);
+
+  function handleOnChange(changeEvent) {
+    const reader = new FileReader();
+
+    reader.onload = function (onLoadEvent) {
+      setImage(onLoadEvent.target.result);
+    };
+    reader.readAsDataURL(changeEvent.target.files[0]);
+  }
 
   // add the user to the sanity database
 
@@ -95,7 +113,7 @@ export default function loginWithEmail({ users }) {
   };
 
   return (
-    <div className="bg-homebg h-screen ">
+    <div className="bg-homebg min-h-screen ">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8">
           <div className="flex-">
@@ -121,6 +139,89 @@ export default function loginWithEmail({ users }) {
             <p id="userMsg" className="font-poppins font-bold p-2">
               {userMsg}
             </p>
+            {isNewUser && (
+              <form className="form pt- space-y-4 mb-5">
+                <div className="name flex space-x-2 ">
+                  <input
+                    placeholder="First Name-[Required]"
+                    type="text"
+                    required
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                      console.log(firstName);
+                    }}
+                    className=" appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+                  />
+
+                  <input
+                    placeholder="Last Name"
+                    type="text"
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                      console.log(lastName);
+                    }}
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+                  />
+                </div>
+                {/* <input
+                  placeholder="Email-[Required]"
+                  type="Email"
+                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    console.log(email);
+                  }}
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+                /> */}
+                <input
+                  placeholder="Phone Number-[Required]"
+                  type="Number"
+                  required
+                  onChange={(e) => {
+                    setPhoneNumber(e.target.value);
+                    console.log(phoneNumber);
+                  }}
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+                />
+                <input
+                  placeholder="Address"
+                  type="Address"
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                    console.log(address);
+                  }}
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+                />
+                <input
+                  placeholder="Date of Birth"
+                  type="Date"
+                  onChange={(e) => {
+                    setDateOfBirth(e.target.value);
+                    console.log(dateOfBirth);
+                  }}
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+                />
+                <div className="rounded-full">
+                  <label
+                    htmlFor="image"
+                    className="bg-gray-100 py-1.5 pl-2 rounded-l-md text-gray-500"
+                  >
+                    Photo:{" "}
+                  </label>
+                  <input
+                    id="image"
+                    type="file"
+                    name="image"
+                    required
+                    accept="image/png, image/jpg, image/jpeg"
+                    className="bg-gray-100 text-gray-500 rounded-r-md"
+                    multiple
+                    onChange={handleOnChange}
+                  />
+                  {image && <img src={image} height={200} width={200} />}
+                </div>
+              </form>
+            )}
             <button
               type="submit"
               onClick={handleLoginWithEmail}
@@ -131,8 +232,19 @@ export default function loginWithEmail({ users }) {
                   className="h-5 w-5 text-green-900 group-hover:text-black"
                   aria-hidden="true"
                 />
-              </span>
-              {isLoading ? "Loading..." : "Sign In"}
+              </span>{
+                if(isLoading) {
+                "Loading..."
+              }  else{
+                if(isRegistration){
+                  "Registration"
+                }
+                else{
+                  "Sign In"
+                }
+              }
+              }
+             
             </button>
           </div>
         </div>
