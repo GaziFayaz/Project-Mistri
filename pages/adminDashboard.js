@@ -19,7 +19,7 @@ const adminDashboard = () => {
     const reader = new FileReader();
 
     reader.onload = function (onLoadEvent) {
-      setServiceImage(onLoadEvent.target.result);
+      setImage(onLoadEvent.target.result);
     };
     reader.readAsDataURL(changeEvent.target.files[0]);
   }
@@ -62,18 +62,19 @@ const adminDashboard = () => {
     }
   };
 
-  const handleOnSubmitMistri = async (event) => {
-
-  }
+  const handleOnSubmitMistri = async (event) => {};
   return (
     <div className="bg-homebg min-h-screen flex">
       <div className=" w-64 py-4 px-3 w-30 h-screen bg-header rounded-b-xl dark:bg-gray-800 sm:max-w-min md:max-w-lg">
         <ul className="space-y-2">
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={(e) => {
-            setShowService(true);
-            setShowHireReqs(false);
-            setShowMistri(false);
-          }}>
+          <li
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            onClick={(e) => {
+              setShowService(true);
+              setShowHireReqs(false);
+              setShowMistri(false);
+            }}
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -90,11 +91,14 @@ const adminDashboard = () => {
             </svg>
             <span className="ml-3 font-bold">Service</span>
           </li>
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer" onClick={(e) => {
-            setShowService(false);
-            setShowHireReqs(false);
-            setShowMistri(true);
-          }}>
+          <li
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer"
+            onClick={(e) => {
+              setShowService(false);
+              setShowHireReqs(false);
+              setShowMistri(true);
+            }}
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -111,11 +115,14 @@ const adminDashboard = () => {
             </svg>
             <span className="ml-3 whitespace-nowrap font-bold">Mistri</span>
           </li>
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer" onClick={(e) => {
-            setShowService(false);
-            setShowHireReqs(true);
-            setShowMistri(false);
-          }}>
+          <li
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer"
+            onClick={(e) => {
+              setShowService(false);
+              setShowHireReqs(true);
+              setShowMistri(false);
+            }}
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -208,9 +215,7 @@ const adminDashboard = () => {
                 />
               </div>
 
-              {image && (
-                <img src={image} height={200} width={200} />
-              )}
+              {image && <img src={image} height={200} width={200} />}
             </div>
             <button
               type="submit"

@@ -11,6 +11,7 @@ import services from "./services";
 import user1 from "./user1";
 import mistriApplicationSchema from "./mistriApplicationSchema";
 import userFormSchema from "./userFormSchema.js";
+import adminInfo from "./adminInfo";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -26,6 +27,7 @@ export default createSchema({
     services,
     mistriApplicationSchema,
     userFormSchema,
+    adminInfo,
 
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
