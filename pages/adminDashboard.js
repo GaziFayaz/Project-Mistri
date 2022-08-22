@@ -6,20 +6,51 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Link from "next/link";
 import mistrilogo from "../public/mistri_logo_svg.svg";
+import Multiselect from "multiselect-react-dropdown";
+import { ChevronDownIcon } from "@heroicons/react/outline";
+
+const expertise = [];
 
 const adminDashboard = () => {
   const [showService, setShowService] = useState();
   const [serviceName, setServiceName] = useState();
   const [servicePrice, setServicePrice] = useState();
   const [image, setImage] = useState();
-  const [showMistri, setShowMistri] = useState(false);
-  const [showHireReqs, setShowHireReqs] = useState(false);
+
+  const [showMistri, setShowMistri] = useState();
+  const [mistriFirstName, setMistriFirstName] = useState();
+  const [mistriLastName, setMistriLastName] = useState();
+  const [mistriEmail, setMistriEmail] = useState();
+  const [mistriPhoneNumber, setMistriPhoneNumber] = useState();
+  const [mistriAddress, setMistriAddress] = useState();
+  const [mistriDateOfBirth, setMistriDateOfBirth] = useState();
+  const [mistriExpertisesList, setMistriExpertisesList] = useState([
+    { key: "carpentry", value: "Carpentry" },
+    {
+      key: "painting",
+      value: "Painting",
+    },
+    {
+      key: "tilework",
+      value: "Tile Work",
+    },
+    {
+      key: "waterline",
+      value: "Water line",
+    },
+  ]);
+  const [mistriExpertises, setMistriExpertises] = useState([]);
+  const [mistriExperience, setMistriExperience] = useState();
+  const [mistriImageUrl, setMistriImageUrl] = useState();
+  const [mistriCertificateUrl, setMistriCertificateUrl] = useState();
+
+  const [showHireReqs, setShowHireReqs] = useState();
 
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
 
     reader.onload = function (onLoadEvent) {
-      setServiceImage(onLoadEvent.target.result);
+      setImage(onLoadEvent.target.result);
     };
     reader.readAsDataURL(changeEvent.target.files[0]);
   }
@@ -63,17 +94,49 @@ const adminDashboard = () => {
   };
 
   const handleOnSubmitMistri = async (event) => {
+    event.preventDefault();
 
-  }
+    try {
+      for (let key in mistriExpertises) {
+        // console.log(expertises[k].value);
+        expertise.push(mistriExpertises[key].value);
+      }
+      console.log("expertise is " + expertise);
+      const Body = {
+        firstName: mistriFirstName,
+        lastName: mistriLastName,
+        email: mistriEmail,
+        phoneNumber: mistriPhoneNumber,
+        address: mistriAddress,
+        dateOfBirth: mistriDateOfBirth,
+        expertises: expertise,
+        experience: mistriExperience,
+        certificate: mistriCertificateUrl,
+        image: mistriImageUrl,
+      };
+      const result = await fetch(`/api/mistri`, {
+        body: JSON.stringify(Body),
+        method: "POST",
+      });
+      const json = await result.json();
+      console.log(Body);
+      return json;
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
   return (
     <div className="bg-homebg min-h-screen flex">
-      <div className=" w-64 py-4 px-3 w-30 h-screen bg-header rounded-b-xl dark:bg-gray-800 sm:max-w-min md:max-w-lg">
+      <div className=" w-64 py-4 px-3 w-30 min-h-screen bg-header rounded-b-xl dark:bg-gray-800 sm:max-w-min md:max-w-lg">
         <ul className="space-y-2">
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={(e) => {
-            setShowService(true);
-            setShowHireReqs(false);
-            setShowMistri(false);
-          }}>
+          <li
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+            onClick={(e) => {
+              setShowService(true);
+              setShowHireReqs(false);
+              setShowMistri(false);
+            }}
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -90,11 +153,14 @@ const adminDashboard = () => {
             </svg>
             <span className="ml-3 font-bold">Service</span>
           </li>
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer" onClick={(e) => {
-            setShowService(false);
-            setShowHireReqs(false);
-            setShowMistri(true);
-          }}>
+          <li
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer"
+            onClick={(e) => {
+              setShowMistri(true);
+              setShowService(false);
+              setShowHireReqs(false);
+            }}
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -111,11 +177,14 @@ const adminDashboard = () => {
             </svg>
             <span className="ml-3 whitespace-nowrap font-bold">Mistri</span>
           </li>
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer" onClick={(e) => {
-            setShowService(false);
-            setShowHireReqs(true);
-            setShowMistri(false);
-          }}>
+          <li
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer"
+            onClick={(e) => {
+              setShowService(false);
+              setShowHireReqs(true);
+              setShowMistri(false);
+            }}
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -157,9 +226,9 @@ const adminDashboard = () => {
       </div>
 
       {showService && (
-        <div className="pl-5 pr-5 py-8 min-h-screen w-full">
+        <div className="pl-5 pr-5 py-8 min-h-screen w-full min-w-full items-center">
           <form
-            className="space-y-5 items-center justify-center"
+            className="space-y-5 max-w-xl justify-center items-center"
             onSubmit={handleOnSubmitService}
           >
             <input
@@ -208,13 +277,156 @@ const adminDashboard = () => {
                 />
               </div>
 
-              {image && (
-                <img src={image} height={200} width={200} />
-              )}
+              {image && <img src={image} height={200} width={200} />}
             </div>
             <button
               type="submit"
               className="group relative w-96 mt-3 flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      )}
+
+      {showMistri && (
+        <div className="m-40 ml-50 min-w-full items-center ">
+          <h1 className="text-center max-w-xl font-semibold text-gray-700 text-2xl">
+            New Mistri
+          </h1>
+          <form
+            className="form pt-4 space-y-4 max-w-xl justify-center items-center"
+            method="post"
+            onSubmit={handleOnSubmitMistri}
+          >
+            <div className="name flex space-x-2 ">
+              <input
+                placeholder="First Name*"
+                type="text"
+                required
+                onChange={(e) => {
+                  setMistriFirstName(e.target.value);
+                  console.log(mistriFirstName);
+                }}
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+              />
+              <input
+                placeholder="Last Name"
+                type="text"
+                required
+                onChange={(e) => {
+                  setMistriLastName(e.target.value);
+                  console.log(mistriLastName);
+                }}
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <input
+              placeholder="Email"
+              type="Email"
+              required
+              onChange={(e) => {
+                setMistriEmail(e.target.value);
+                console.log(mistriEmail);
+              }}
+              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+            />
+            <input
+              placeholder="Phone Number"
+              type="text"
+              required
+              onChange={(e) => {
+                setMistriPhoneNumber(e.target.value);
+                console.log(mistriPhoneNumber);
+              }}
+              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+            />
+            <input
+              placeholder="Address"
+              type="Address"
+              required
+              onChange={(e) => {
+                setMistriAddress(e.target.value);
+                console.log(mistriAddress);
+              }}
+              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+            />
+            <input
+              placeholder="Date of Birth"
+              type="Date"
+              required
+              onChange={(e) => {
+                setMistriDateOfBirth(e.target.value);
+                console.log(mistriDateOfBirth);
+              }}
+              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+            />
+            <div className="expertise-select flex">
+              <Multiselect
+                className="bg-white rounded-lg"
+                id="css_custom"
+                displayValue="key"
+                onKeyPressFn={function noRefCheck() {}}
+                onSelect={(event) => {
+                  setMistriExpertises(event);
+                  // console.log(mistriExpertises);
+                }}
+                onRemove={(event) => {
+                  setMistriExpertises(event);
+                  console.log(mistriExpertises);
+                }}
+                // onSearch={(event)=> {console.log(event)}}
+                hidePlaceholder="true"
+                avoidHighlightFirstOption="false"
+                closeIcon="cancel"
+                placeholder="Choose Expertise(s)"
+                options={mistriExpertisesList}
+                style={{
+                  chips: {
+                    // To change css for dropdown options
+                    background: "#00D3AD",
+                    color: "black",
+                  },
+                }}
+              />
+              <ChevronDownIcon className="relative right-8 top-2 w-5 h-5 pointer-events-none stroke-gray-300" />
+            </div>
+            <input
+              placeholder="Experience (years)"
+              type="number"
+              required
+              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+              onChange={(e) => {
+                setMistriExperience(e.target.value);
+                console.log(mistriExperience);
+              }}
+            />
+            <div className="URL flex space-x-2 ">
+              <input
+                placeholder="Certificate URL"
+                type="text"
+                required
+                onChange={(e) => {
+                  setMistriCertificateUrl(e.target.value);
+                  console.log(mistriCertificateUrl);
+                }}
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+              />
+              <input
+                placeholder="Image URL"
+                type="text"
+                required
+                onChange={(e) => {
+                  setMistriImageUrl(e.target.value);
+                  console.log(mistriImageUrl);
+                }}
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
             >
               Submit
             </button>
