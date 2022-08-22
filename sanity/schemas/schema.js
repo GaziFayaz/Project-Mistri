@@ -10,6 +10,7 @@ import services from "./services";
 // import post from "./post";
 import user1 from "./user1";
 import mistriApplicationSchema from "./mistriApplicationSchema";
+import mistri from "./mistri"
 import userFormSchema from "./userFormSchema.js";
 
 // Then we give our schema to the builder and provide the result to Sanity
@@ -25,6 +26,7 @@ export default createSchema({
     user1,
     services,
     mistriApplicationSchema,
+    mistri,
     userFormSchema,
 
     // When added to this list, object types can be used as
