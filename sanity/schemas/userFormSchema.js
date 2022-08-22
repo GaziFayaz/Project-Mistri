@@ -1,6 +1,6 @@
 export default {
-  name: "mistriApplications",
-  title: "Mistri Applications",
+  name: "userForm",
+  title: "User Form",
   type: "document",
   fields: [
     {
@@ -32,26 +32,6 @@ export default {
       name: "dateOfBirth",
       title: "Date of Birth",
       type: "date",
-    },
-    {
-      name: "expertises",
-      title: "Expertises",
-      type: "array",
-      of: [
-        {
-          type: "string",
-        },
-      ],
-    },
-    {
-      name: "experience",
-      title: "Experience",
-      type: "string",
-    },
-    {
-      name: "certification",
-      title: "Certification",
-      type: "string",
     },
     {
       name: "photo",

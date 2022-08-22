@@ -4,17 +4,8 @@ export default async function handler(req, res) {
     const mutations = [
       {
         create: {
-          _type: "mistriApplications",
-          first_name: data.firstName,
-          last_name: data.lastName,
-          email: data.email,
-          phone_number: data.phoneNumber,
-          address: data.address,
-          dateOfBirth: data.dateOfBirth,
-          expertises: data.expertises,
-          experience: data.experience,
-          certification: data.certificate,
-          photo: data.image,
+          _type: "user1",
+          email: data.phone,
         },
       },
     ];

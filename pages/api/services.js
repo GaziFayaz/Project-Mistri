@@ -5,7 +5,9 @@ export default async function handler(req, res) {
       {
         create: {
           _type: "services",
-          service: data.service,
+          name: data.name,
+          price: data.price,
+          image: data.image,
         },
       },
     ];
