@@ -3,6 +3,7 @@ import mistrilogo from "../public/mistri_logo_svg.svg";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { auth } from "../firebase";
+import { sanityClient } from "../lib/Sanity";
 import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
@@ -10,7 +11,9 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/router";
 
-const loginWithPhone = () => {
+const userQuery = `*[_type == "user1"]{ email}.email`;
+
+const loginWithPhone = ({ users }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const countryCode = "+88";
@@ -65,6 +68,20 @@ const loginWithPhone = () => {
       setUserMsg("Enter a valid Number");
     }
   };
+  // adding a user mutation
+  const addUser = async () => {
+    const telNumber = countryCode.concat(phn);
+    const Body = {
+      phone: telNumber,
+    };
+    const result = await fetch(`/api/addUserWithPhone`, {
+      body: JSON.stringify(Body),
+      method: "POST",
+    });
+    const json = await result.json();
+    console.log(Body);
+    return json;
+  };
 
   const verifyOTP = (e) => {
     // e.preventDefault();
@@ -72,25 +89,59 @@ const loginWithPhone = () => {
     setOtp(OTP);
     console.log(OTP);
     if (OTP.length === 6) {
-      let confirmationResult = window.confirmationResult;
-      confirmationResult
-        .confirm(OTP)
-        .then((result) => {
-          // User signed in successfully.
-          const user = result.user;
-          sessionStorage.setItem("Token", user.accessToken);
+      const telNumber = countryCode.concat(phn);
+      const flag = 0;
+      for (let index = 0; index < users.length; index++) {
+        const user = users[index];
+        // console.log(user);
+        if (telNumber === user) {
+          flag++;
+        }
+      }
+      if (flag > 0) {
+        let confirmationResult = window.confirmationResult;
+        confirmationResult
+          .confirm(OTP)
+          .then((result) => {
+            // User signed in successfully.
+            const user = result.user;
+            sessionStorage.setItem("Token", user.accessToken);
 
-          console.log(user);
+            console.log(user);
 
-          router.push("/");
+            router.push("/");
 
-          // ...
-        })
-        .catch((error) => {
-          // User couldn't sign in (bad verification code?)
-          // ...
-          console.log(error);
-        });
+            // ...
+          })
+          .catch((error) => {
+            alert(error);
+            // User couldn't sign in (bad verification code?)
+            // ...
+            console.log(error);
+          });
+      } else {
+        addUser();
+        let confirmationResult = window.confirmationResult;
+        confirmationResult
+          .confirm(OTP)
+          .then((result) => {
+            // User signed in successfully.
+            const user = result.user;
+            sessionStorage.setItem("Token", user.accessToken);
+
+            console.log(user);
+
+            router.push("/user_form");
+
+            // ...
+          })
+          .catch((error) => {
+            alert(error);
+            // User couldn't sign in (bad verification code?)
+            // ...
+            console.log(error);
+          });
+      }
     }
 
     console.log(otp);
@@ -162,3 +213,10 @@ const loginWithPhone = () => {
 };
 
 export default loginWithPhone;
+
+export async function getStaticProps() {
+  const users = await sanityClient.fetch(userQuery);
+  return {
+    props: { users },
+  };
+}
