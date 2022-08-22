@@ -130,12 +130,15 @@ const adminDashboard = () => {
       <div className=" w-64 py-4 px-3 w-30 min-h-screen bg-header rounded-b-xl dark:bg-gray-800 sm:max-w-min md:max-w-lg">
         <ul className="space-y-2">
           <li
+           
             className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+           
             onClick={(e) => {
-              setShowService(true);
-              setShowHireReqs(false);
-              setShowMistri(false);
-            }}
+                setShowService(true);
+                setShowHireReqs(false);
+                setShowMistri(false);
+              }}
+          
           >
             <svg
               className="w-6 h-6"
@@ -178,12 +181,15 @@ const adminDashboard = () => {
             <span className="ml-3 whitespace-nowrap font-bold">Mistri</span>
           </li>
           <li
+           
             className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700cursor-pointer"
+           
             onClick={(e) => {
-              setShowService(false);
-              setShowHireReqs(true);
-              setShowMistri(false);
-            }}
+                setShowService(false);
+                setShowHireReqs(true);
+                setShowMistri(false);
+              }}
+          
           >
             <svg
               className="w-6 h-6"

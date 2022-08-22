@@ -8,7 +8,9 @@ import { ThemeProvider } from "next-themes";
 
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import Multiselect from "multiselect-react-dropdown";
-import axios from "axios";
+import axios from "axios";\
+
+const serviceQ  = `*[_type == "user1"]{ email}.email`
 
 const expertise = [];
 const certificateUrl = "";
@@ -328,3 +330,10 @@ const join = () => {
   );
 };
 export default join;
+
+// export async function getStaticProps() {
+//   const users = await sanityClient.fetch(userQuery);
+//   return {
+//     props: { users },
+//   };
+// }

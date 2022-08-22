@@ -7,13 +7,30 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import { ToastContainer, toast } from "react-toastify";
-import { didToken } from "./loginWithEmail";
+// import { didToken } from "./loginWithEmail";
+import { magic } from "../lib/magic-client";
 
 import "react-toastify/dist/ReactToastify.css";
 import { async } from "@firebase/util";
 
 const user_form = () => {
   const router = useRouter();
+  const authorization = async () => {
+    // let token = window.sessionStorage.getItem("Token");
+    try {
+      const token = window.sessionStorage.getItem("Token");
+      const didToken = await magic.user.isLoggedIn();
+
+      if (!didToken && !token) {
+        alert("you are not logged in");
+        router.push("/signinOption");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  authorization();
+
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
