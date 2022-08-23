@@ -10,11 +10,12 @@ import { sanityClient } from "../lib/Sanity";
 const userQuery = `*[_type == "user1"]{ email}.email`;
 
 export default function loginWithEmail({ users }) {
+  const [button, setButton] = useState("Sign In");
+
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
   const [isNewUser, setIsNewUser] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [isRegistration, setIsRegistration] = useState(false);
 
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
@@ -29,6 +30,7 @@ export default function loginWithEmail({ users }) {
     const handleComplete = () => {
       // Turn "Loading..." back into "sign in" when routing is complete
       setIsLoading(false);
+      changeButton();
     };
     router.events.on("routeChangeComplete", handleComplete);
     router.events.on("routeChangeError", handleComplete);
@@ -38,6 +40,18 @@ export default function loginWithEmail({ users }) {
       router.events.off("routeChangeError", handleComplete);
     };
   }, [router]);
+
+  const changeButton = () => {
+    if (isLoading) {
+      setButton("Loading..");
+    } else {
+      if (isNewUser) {
+        setButton("Register");
+      } else {
+        setButton("Sign In");
+      }
+    }
+  };
 
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
@@ -50,27 +64,36 @@ export default function loginWithEmail({ users }) {
 
   // add the user to the sanity database
 
-  const addUser = async () => {
-    const emailBody = {
+  const addUser = async (imageUrl) => {
+    const Body = {
+      
+      firstName: firstName,
+      lastName: lastName,
       email: email,
+      phoneNumber: phoneNumber,
+      address: address,
+      dateOfBirth: dateOfBirth,
+      image: imageUrl,
     };
     const result = await fetch(`/api/addUser`, {
-      body: JSON.stringify(emailBody),
+      body: JSON.stringify(Body),
       method: "POST",
     });
     const json = await result.json();
-    console.log(emailBody);
+    console.log(Body);
     return json;
   };
 
-  const authenticate = async () => {
+  const authenticate = async (imageUrl) => {
     try {
       // when clicked on the sign in button turn the show "loading..."
       setIsLoading(true);
+      changeButton();
       const didToken = await magic.auth.loginWithMagicLink({ email });
       console.log({ didToken });
       if (didToken) {
         // route to home
+        addUser(imageUrl);
         router.push("/");
       }
     } catch (error) {
@@ -81,6 +104,8 @@ export default function loginWithEmail({ users }) {
 
   const handleOnChangeEmail = (e) => {
     setUserMsg(""); // deletes user message if starts typing again
+    setIsNewUser(false);
+    changeButton();
     console.log("event", e);
     const email = e.target.value;
     setEmail(email);
@@ -102,9 +127,34 @@ export default function loginWithEmail({ users }) {
       if (flag > 0) {
         authenticate();
       } else {
-        setUserMsg("You are not signed up yet. Preparing for signing up... ");
-        addUser();
-        authenticate();
+        setUserMsg("You are not signed up yet. Please Fill up and Register");
+        setIsNewUser(true);
+        changeButton();
+        try {
+          const form = e.currentTarget;
+          const fileInput = Array.from(form.elements).find(
+            ({ name }) => name === "image"
+          );
+          console.log(fileInput);
+          const formData = new FormData();
+          for (const image of fileInput.files) {
+            formData.append("file", image);
+          }
+          formData.append("upload_preset", "mistri-application");
+          const data = await fetch(
+            "https://api.cloudinary.com/v1_1/dqbr3ydia/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          ).then((r) => r.json());
+          console.log("data", data);
+          imageUrl = data.secure_url;
+          console.log(imageUrl);
+          authenticate(imageUrl);
+        } catch (error) {
+          console.log("error", error);
+        }
       }
     } else {
       // show userMsg
@@ -113,7 +163,7 @@ export default function loginWithEmail({ users }) {
   };
 
   return (
-    <div className="bg-homebg min-h-screen ">
+    <div className="bg-homebg min-h-screen min-w-screen">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8">
           <div className="flex-">
@@ -163,16 +213,6 @@ export default function loginWithEmail({ users }) {
                     className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
                   />
                 </div>
-                {/* <input
-                  placeholder="Email-[Required]"
-                  type="Email"
-                  required
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    console.log(email);
-                  }}
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
-                /> */}
                 <input
                   placeholder="Phone Number-[Required]"
                   type="Number"
@@ -232,19 +272,8 @@ export default function loginWithEmail({ users }) {
                   className="h-5 w-5 text-green-900 group-hover:text-black"
                   aria-hidden="true"
                 />
-              </span>{
-                if(isLoading) {
-                "Loading..."
-              }  else{
-                if(isRegistration){
-                  "Registration"
-                }
-                else{
-                  "Sign In"
-                }
-              }
-              }
-             
+              </span>
+              {button}
             </button>
           </div>
         </div>
