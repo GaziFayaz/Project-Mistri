@@ -3,14 +3,13 @@ import Link from "next/link";
 import { ArrowDownIcon } from "@heroicons/react/solid";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
-import { sanityClient } from "../lib/Sanity";
+// import { sanityClient } from "../lib/Sanity";
 import { ThemeProvider } from "next-themes";
 
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import Multiselect from "multiselect-react-dropdown";
-import axios from "axios";\
 
-const serviceQ  = `*[_type == "user1"]{ email}.email`
+const serviceQ = `*[_type == "user1"]{ email}.email`;
 
 const expertise = [];
 const certificateUrl = "";

@@ -8,7 +8,7 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import blockContent from "./blockContent";
 import services from "./services";
 // import post from "./post";
-import user1 from "./user1";
+import users from "./users";
 import mistriApplicationSchema from "./mistriApplicationSchema";
 import mistri from "./mistri"
 import userFormSchema from "./userFormSchema.js";
@@ -24,7 +24,7 @@ export default createSchema({
     // The following are document types which will appear
     // in the studio.
     // post,
-    user1,
+    users,
     services,
     mistriApplicationSchema,
     mistri,

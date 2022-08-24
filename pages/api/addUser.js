@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     const mutations = [
       {
         create: {
-          _type: "user1",
+          _type: "users",
           email: data.email,
         },
       },

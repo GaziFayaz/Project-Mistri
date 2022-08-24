@@ -7,14 +7,14 @@ import mistrilogo from "../public/mistri_logo_svg.svg";
 import { magic } from "../lib/magic-client";
 import { sanityClient } from "../lib/Sanity";
 
-const userQuery = `*[_type == "user1"]{ email}.email`;
+const userQuery = `*[_type == "users"]{ email}.email`;
 
 export default function loginWithEmail({ users }) {
   const [button, setButton] = useState("Sign In");
 
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
-  const [isNewUser, setIsNewUser] = useState(true);
+  const [isNewUser, setIsNewUser] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const [firstName, setFirstName] = useState();
@@ -93,7 +93,10 @@ export default function loginWithEmail({ users }) {
       console.log({ didToken });
       if (didToken) {
         // route to home
-        addUser(imageUrl);
+        if(isNewUser){
+          addUser(imageUrl);
+        }
+        
         router.push("/");
       }
     } catch (error) {

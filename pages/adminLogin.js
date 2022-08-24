@@ -23,8 +23,8 @@ const adminLogin = ({ users }) => {
       for (let index = 0; index < users.length; index++) {
         const umail = users[index].email;
         const upass = users[index].password;
-        // console.log(umail);
-        // console.log(upass);
+        console.log(umail);
+        console.log(upass);
         if (email === umail) {
           bcrypt.compare(password, upass, function (err, isMatch) {
             if (err) {
