@@ -31,7 +31,7 @@ export default {
       {
         name: "dateOfBirth",
         title: "Date of Birth",
-        type: "date",
+        type: "string",
       },
       {
         name: "photo",

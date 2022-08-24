@@ -5,7 +5,13 @@ export default async function handler(req, res) {
       {
         create: {
           _type: "users",
-          email: data.email,
+          
+          first_name: data.first_name,email: data.email,
+          last_name: data.last_name,
+          phone_number: data.phone_number,
+          address: data.address,
+          dateOfBirth: data.dateOfBirth,
+          photo: data.photo,
         },
       },
     ];

@@ -10,8 +10,6 @@ import { sanityClient } from "../lib/Sanity";
 const userQuery = `*[_type == "users"]{ email}.email`;
 
 export default function loginWithEmail({ users }) {
-  const [button, setButton] = useState("Sign In");
-
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
   const [isNewUser, setIsNewUser] = useState();
@@ -23,14 +21,12 @@ export default function loginWithEmail({ users }) {
   const [address, setAddress] = useState();
   const [dateOfBirth, setDateOfBirth] = useState();
   const [image, setImage] = useState();
-
   const router = useRouter();
 
   useEffect(() => {
     const handleComplete = () => {
       // Turn "Loading..." back into "sign in" when routing is complete
       setIsLoading(false);
-      changeButton();
     };
     router.events.on("routeChangeComplete", handleComplete);
     router.events.on("routeChangeError", handleComplete);
@@ -40,18 +36,6 @@ export default function loginWithEmail({ users }) {
       router.events.off("routeChangeError", handleComplete);
     };
   }, [router]);
-
-  const changeButton = () => {
-    if (isLoading) {
-      setButton("Loading..");
-    } else {
-      if (isNewUser) {
-        setButton("Register");
-      } else {
-        setButton("Sign In");
-      }
-    }
-  };
 
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
@@ -65,39 +49,42 @@ export default function loginWithEmail({ users }) {
   // add the user to the sanity database
 
   const addUser = async (imageUrl) => {
-    const Body = {
-      
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phoneNumber: phoneNumber,
-      address: address,
-      dateOfBirth: dateOfBirth,
-      image: imageUrl,
-    };
-    const result = await fetch(`/api/addUser`, {
-      body: JSON.stringify(Body),
-      method: "POST",
-    });
-    const json = await result.json();
-    console.log(Body);
-    return json;
+    try {
+      {
+        const Body = {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          phone_number: phoneNumber,
+          address: address,
+          dateOfBirth: dateOfBirth,
+          photo: imageUrl,
+        };
+        const result = await fetch(`/api/addUser`, {
+          body: JSON.stringify(Body),
+          method: "POST",
+        });
+        const json = await result.json();
+        console.log(Body);
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const authenticate = async (imageUrl) => {
+  const authenticate = async () => {
     try {
       // when clicked on the sign in button turn the show "loading..."
       setIsLoading(true);
-      changeButton();
       const didToken = await magic.auth.loginWithMagicLink({ email });
       console.log({ didToken });
       if (didToken) {
         // route to home
-        if(isNewUser){
-          addUser(imageUrl);
-        }
-        
-        router.push("/");
+        return true;
+      } else {
+        setUserMsg("Error! Could not Log in");
+        return false;
       }
     } catch (error) {
       // in case of error
@@ -108,7 +95,6 @@ export default function loginWithEmail({ users }) {
   const handleOnChangeEmail = (e) => {
     setUserMsg(""); // deletes user message if starts typing again
     setIsNewUser(false);
-    changeButton();
     console.log("event", e);
     const email = e.target.value;
     setEmail(email);
@@ -128,40 +114,51 @@ export default function loginWithEmail({ users }) {
         }
       }
       if (flag > 0) {
-        authenticate();
-      } else {
-        setUserMsg("You are not signed up yet. Please Fill up and Register");
-        setIsNewUser(true);
-        changeButton();
-        try {
-          const form = e.currentTarget;
-          const fileInput = Array.from(form.elements).find(
-            ({ name }) => name === "image"
-          );
-          console.log(fileInput);
-          const formData = new FormData();
-          for (const image of fileInput.files) {
-            formData.append("file", image);
-          }
-          formData.append("upload_preset", "mistri-application");
-          const data = await fetch(
-            "https://api.cloudinary.com/v1_1/dqbr3ydia/image/upload",
-            {
-              method: "POST",
-              body: formData,
-            }
-          ).then((r) => r.json());
-          console.log("data", data);
-          imageUrl = data.secure_url;
-          console.log(imageUrl);
-          authenticate(imageUrl);
-        } catch (error) {
-          console.log("error", error);
+        if (await authenticate()) {
+          router.push("/");
         }
+      } else {
+        setIsNewUser(true);
+        setUserMsg("You are not signed up yet. Please Fill up and Register");
       }
     } else {
       // show userMsg
       setUserMsg("Enter a valid email address");
+    }
+  };
+
+  const handleLoginWithEmailNewUser = async (e) => {
+    e.preventDefault();
+    console.log("Button for new user!");
+    const form = e.currentTarget;
+    console.log(form);
+
+    try {
+      const form = e.currentTarget;
+      const fileInput = Array.from(form.elements).find(
+        ({ name }) => name === "image"
+      );
+      console.log(fileInput);
+      const formData = new FormData();
+      for (const image of fileInput.files) {
+        formData.append("file", image);
+      }
+      formData.append("upload_preset", "mistri-application");
+      const data = await fetch(
+        "https://api.cloudinary.com/v1_1/dqbr3ydia/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      ).then((r) => r.json());
+      console.log("data", data);
+      const imageUrl = data.secure_url
+      console.log(imageUrl);
+      if (await authenticate()) {
+        if (await addUser(imageUrl)) router.push("/");
+      }
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
@@ -193,7 +190,10 @@ export default function loginWithEmail({ users }) {
               {userMsg}
             </p>
             {isNewUser && (
-              <form className="form pt- space-y-4 mb-5">
+              <form
+                className="form pt- space-y-4 mb-5"
+                onSubmit={handleLoginWithEmailNewUser}
+              >
                 <div className="name flex space-x-2 ">
                   <input
                     placeholder="First Name-[Required]"
@@ -263,21 +263,35 @@ export default function loginWithEmail({ users }) {
                   />
                   {image && <img src={image} height={200} width={200} />}
                 </div>
+                <button
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
+                >
+                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <LockClosedIcon
+                      className="h-5 w-5 text-green-900 group-hover:text-black"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  {isLoading ? "Loading..." : "Register"}
+                </button>
               </form>
             )}
-            <button
-              type="submit"
-              onClick={handleLoginWithEmail}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LockClosedIcon
-                  className="h-5 w-5 text-green-900 group-hover:text-black"
-                  aria-hidden="true"
-                />
-              </span>
-              {button}
-            </button>
+            {!isNewUser && (
+              <button
+                type="submit"
+                onClick={handleLoginWithEmail}
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <LockClosedIcon
+                    className="h-5 w-5 text-green-900 group-hover:text-black"
+                    aria-hidden="true"
+                  />
+                </span>
+                {isLoading ? "Loading..." : "Sign in"}
+              </button>
+            )}
           </div>
         </div>
       </div>
