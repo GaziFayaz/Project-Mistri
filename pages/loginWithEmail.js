@@ -7,7 +7,7 @@ import mistrilogo from "../public/mistri_logo_svg.svg";
 import { magic } from "../lib/magic-client";
 import { sanityClient } from "../lib/Sanity";
 
-const userQuery = `*[_type == "users"]{ email}.email`;
+const userQuery = `*[_type == "users"]{ email }.email`;
 
 export default function loginWithEmail({ users }) {
   const [userMsg, setUserMsg] = useState("");
