@@ -165,7 +165,7 @@ const adminDashboard = () => {
             <span className="ml-3 font-bold">Service</span>
           </li>
           <li
-            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 placeholder cursor-pointer"
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
             onClick={(e) => {
               setShowMistri(true);
               setShowService(false);
@@ -237,18 +237,21 @@ const adminDashboard = () => {
       </div>
 
       {showService && (
-        <div className="pl-5 pr-5 py-8 min-h-screen w-full min-w-full items-center">
+        <div className="m-40 ml-50 min-w-full items-center">
+          <button classname="p-4 ">Add Service</button>
+
           <form
-            className="space-y-5 max-w-xl justify-center items-center"
+            className="space-y-5 max-w-md justify-center items-center"
             onSubmit={handleOnSubmitService}
           >
+            <h1 className="w-full text-center font-bold text-xl px-3 py-2">New Service</h1>
             <input
               placeholder="Service Name"
               type="text"
               id="name"
               name="name"
               // value={serviceName}
-              className="appearance-none relative block w-96 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
               required
               onChange={(e) => {
                 setServiceName(e.target.value);
@@ -261,14 +264,14 @@ const adminDashboard = () => {
               id="price"
               name="price"
               // value={servicePrice}
-              className="appearance-none relative block w-96 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
+              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
               required
               onChange={(e) => {
                 console.log(e.target.value);
                 setServicePrice(parseInt(e.target.value), 10);
               }}
             />
-            <div className="rounded-full flex">
+            <div className="rounded-full inline-flex">
               <div>
                 <label
                   htmlFor="image"
@@ -282,7 +285,7 @@ const adminDashboard = () => {
                   name="image"
                   // value={serviceName}
                   accept=".pdf, image/png, image/jpg, image/jpeg"
-                  className="bg-gray-100 text-gray-500 rounded-r-sm w-64"
+                  className="bg-gray-100 text-gray-500 rounded-r-sm"
                   required
                   onChange={handleOnChange}
                 />
@@ -292,7 +295,7 @@ const adminDashboard = () => {
             </div>
             <button
               type="submit"
-              className="group relative w-96 mt-3 flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
             >
               Submit
             </button>

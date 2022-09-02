@@ -14,7 +14,7 @@ module.exports = {
       colors: {
         transparent: "transparent",
         current: "currentColor",
-        homebg: "#ADD0CC",
+        homebg: "#BEE2DE",
         header: "#00D3AD",
         proDropDown: "#9EFFE8",
         // ...
