@@ -5,8 +5,11 @@ const nextConfig = {
 };
 
 module.exports = {
-  images:{
-    domains:["res.cloudinary.com"]
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
+  experiments: {
+    topLevelAwait: true,
   },
   nextConfig,
   // resolve: {

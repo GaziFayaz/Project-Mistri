@@ -1,31 +1,37 @@
-import React from "react";
-import Multiselect from "multiselect-react-dropdown";
-import { useRef } from "react";
+import { async } from "@firebase/util";
+import React, { useState, useEffect } from "react";
+import { sanityClient } from "../lib/Sanity";
+let query = ``;
+// const userMail = { currUserMail }?.currUserMail
+
+// query = `*[_type == "users" && email == "${
+    
+//   }"]{_id, address, first_name, phone_number}[0]`;
 
 const multiSelect = () => {
-  //   const multiselectref = React.createRef();
+  const [currUserMail, setcurrUserMail] = useState("");
 
-  //   const dropdown = () => {
-  //     console.log(multiselectref.getSelectedItems);
-  //   };
+  useEffect(() => {
+    async () => {
+      try {
+        const { email } = await magic.user.getMetadata();
+        if (email) {
+          console.log({ email });
+          setcurrUserMail(email);
+        }
+      } catch (error) {
+        // Handle errors if required!
+        console.error("Error retrieving email, error");
+      }
+    };
+  }, []);
 
-  const constructor = () => {
-    this.multiselectRef = React.createRef();
-  };
-  return (
-    <div>
-      <Multiselect
-        isObject={false}
-        ref={this.multiselectRef}
-        onKeyPressFn={function noRefCheck() {}}
-        onRemove={function noRefCheck() {}}
-        onSearch={function noRefCheck() {}}
-        onSelect={function noRefCheck() {}}
-        options={["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]}
-      />
-      <button onClick={dropdown}>submit</button>
-    </div>
-  );
+  return <div>multiSelect</div>;
 };
+// export async function getStaticProps() {
+//   const users = await sanityClient.fetch(query);
+//   // const user = await users.json();
+//   console.log(users);
+// }
 
 export default multiSelect;
