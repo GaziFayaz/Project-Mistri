@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useEffect } from "react";
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import Image from "next/image";
 import { LockClosedIcon } from "@heroicons/react/solid";
@@ -6,10 +7,27 @@ import { useState } from "react";
 import bcrypt from "bcryptjs";
 import { sanityClient } from "../lib/Sanity";
 import { useRouter } from "next/router";
+import { magic } from "../lib/magic-client";
 const userQuery = `*[_type == "adminInfo"]{email, password}`;
 
 const adminLogin = ({ users }) => {
   const router = useRouter();
+
+  const authorization = async () => {
+    // let token = window.sessionStorage.getItem("Token");
+    try {
+      const token = window.sessionStorage.getItem("Token");
+      const didToken = await magic.user.isLoggedIn();
+
+      if (didToken || token) {
+        router.push("/FOF");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  authorization();
+
   const [isLoading, setIsLoading] = useState(false);
   const [userMsg, setUserMsg] = useState("");
   const emailInputRef = useRef();
@@ -104,7 +122,8 @@ const adminLogin = ({ users }) => {
 
 export default adminLogin;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
+  // authorization();
   const users = await sanityClient.fetch(userQuery);
   return {
     props: { users },

@@ -1,18 +1,29 @@
-import Image from "next/image";
-import React, { useState } from "react";
-import Nav from "./components/admin/Nav";
-import mistri from "../public/mistri_logo_svg.svg";
-import Modal from "./components/Modal";
-import Header from "./components/Header";
-import Link from "next/link";
-import mistrilogo from "../public/mistri_logo_svg.svg";
-import Multiselect from "multiselect-react-dropdown";
 import { ChevronDownIcon } from "@heroicons/react/outline";
+import Multiselect from "multiselect-react-dropdown";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { magic } from "../lib/magic-client";
 
 const expertise = [];
 
 const adminDashboard = () => {
-  const [showService, setShowService] = useState(true); //temporary value...should be kept blank
+  const router = useRouter();
+  const authorization = async () => {
+    // let token = window.sessionStorage.getItem("Token");
+    try {
+      const token = window.sessionStorage.getItem("Token");
+      const didToken = await magic.user.isLoggedIn();
+
+      if (didToken || token) {
+        router.push("/FOF");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  authorization();
+  const [showService, setShowService] = useState();
   // const [serviceButton, setServiceButton] = useState(true);
 
   const [serviceName, setServiceName] = useState();
@@ -128,7 +139,7 @@ const adminDashboard = () => {
     }
   };
   return (
-    <div className="bg-homebg min-h-screen flex">
+    <div className="bg-homebg inset-0 flex">
       <div className=" w-64 py-4 px-3 w-30 min-h-screen bg-header rounded-b-xl dark:bg-gray-800 sm:max-w-min md:max-w-lg">
         <ul className="space-y-2">
           <li
@@ -205,7 +216,7 @@ const adminDashboard = () => {
               Hire Requests
             </span>
           </li>
-          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          <li className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
             <svg
               className="w-6 h-6"
               fill="none"
@@ -293,6 +304,7 @@ const adminDashboard = () => {
           </form>
         </div>
       )}
+      {/* m-40 ml-50  items-center     relative sm:rounded-lg  */}
 
       {showMistri && (
         <div className="m-40 ml-50 min-w-full items-center ">
@@ -436,6 +448,54 @@ const adminDashboard = () => {
               Submit
             </button>
           </form>
+        </div>
+      )}
+      {showHireReqs && (
+        <div className=" flex px-36 py-28 inset-0  min-w-full ">
+          <div className="relative">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="py-3 px-6">
+                    Customer ID
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Customer Name
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Customer Phone Number
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Requested Service
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Action
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Apple MacBook Pro 17"
+                  </th>
+                  <td className="py-4 px-6">Sliver</td>
+                  <td className="py-4 px-6">Laptop</td>
+                  <td className="py-4 px-6">$2999</td>
+                  <td className="py-4 px-6">
+                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

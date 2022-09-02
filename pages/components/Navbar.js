@@ -71,7 +71,24 @@ const Navbar = () => {
             const { email } = await magic.user.getMetadata();
             if (email) {
               console.log({ email });
+              const currUser = { email }.email;
               setUsername(email);
+              try {
+                {
+                  const Body = {
+                    currUser: currUser,
+                  };
+                  const result = await fetch(`/api/addCurrentUser`, {
+                    body: JSON.stringify(Body),
+                    method: "POST",
+                  });
+                  const json = await result.json();
+                  console.log(Body);
+                  return true;
+                }
+              } catch (error) {
+                console.log(error);
+              }
             }
           } catch (error) {
             // Handle errors if required!
