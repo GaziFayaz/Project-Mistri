@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     const data = JSON.parse(req.body);
     const mutations = [
       {
-        createIfNotExists: {
+        create: {
           _type: "currUser",
 
           user: data.currUser,
