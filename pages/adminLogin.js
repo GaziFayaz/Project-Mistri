@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import { sanityClient } from "../lib/Sanity";
 import { useRouter } from "next/router";
 import { magic } from "../lib/magic-client";
+var jwt = require("jsonwebtoken");
 const userQuery = `*[_type == "adminInfo"]{email, password}`;
 
 const adminLogin = ({ users }) => {
@@ -18,7 +19,7 @@ const adminLogin = ({ users }) => {
     try {
       const token = window.sessionStorage.getItem("Token");
       const didToken = await magic.user.isLoggedIn();
-
+      const adminToken = sessionStorage.getItem("AdminToken");
       if (didToken || token) {
         router.push("/FOF");
       }
@@ -41,8 +42,8 @@ const adminLogin = ({ users }) => {
       for (let index = 0; index < users.length; index++) {
         const umail = users[index].email;
         const upass = users[index].password;
-        console.log(umail);
-        console.log(upass);
+        // console.log(umail);
+        // console.log(upass);
         if (email === umail) {
           bcrypt.compare(password, upass, function (err, isMatch) {
             if (err) {
@@ -51,6 +52,9 @@ const adminLogin = ({ users }) => {
               setUserMsg("Incorrect Email Or Password");
             } else if (isMatch) {
               setIsLoading(true);
+              var token = jwt.sign({ email: email }, "getsecret");
+              console.log({ token }.token);
+              sessionStorage.setItem("AdminToken", { token }.token);
               router.push("/adminDashboard");
             }
           });

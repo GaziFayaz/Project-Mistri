@@ -154,7 +154,7 @@ const loginWithPhone = ({ users }) => {
   const handleLoginWithPhone = (e) => {
     e.preventDefault();
     const phnPattern = /^[0][1][^0124][0-9]*$/g;
-    if (countryCode.concat(phn).length === 14 && phnPattern.test(phn)) {
+    if (phn.length === 11 && phnPattern.test(phn)) {
       setExpand(true);
       capthaPopup();
       const appVerifier = window.recaptchaVerifier;

@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import me from "../../public/me.jpg";
 
-const card = () => {
+const card = ({ userEmail, fname, lname, dob, uAddress, photo, phone }) => {
   const [ImageButton, setImageButton] = useState(true);
   const [image, setImage] = useState([]);
 
@@ -21,8 +21,11 @@ const card = () => {
       <div className="w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-row items-center py-4">
           <div className=" items-center pr-4 pl-4 flex-grow">
-            <img src="" className="mb-3 w-24 h-24 rounded-full shadow-lg" />
-            <input
+            <img
+              src={photo}
+              className="mb-3 w-24 h-24 rounded-full shadow-lg"
+            />
+            {/* <input
               id="image"
               type="file"
               onChange={(event) => {
@@ -38,10 +41,10 @@ const card = () => {
               }}
               accept=".pdf, image/png, image/jpg, image/jpeg"
               className="bg-gray-100 text-gray-500 rounded-r-md cursor-pointer"
-            />
+            /> */}
           </div>
 
-          <div className=" flex space-x-3 md:mt-6 mr-4">
+          {/* <div className=" flex space-x-3 md:mt-6 mr-4">
             <a
               href="#"
               className={
@@ -52,7 +55,7 @@ const card = () => {
             >
               Upload
             </a>
-          </div>
+          </div> */}
         </div>
 
         <form className="px-4">
@@ -62,8 +65,9 @@ const card = () => {
               name="floating_email"
               id="floating_email"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              placeholder=""
               required=""
+              value={userEmail}
             />
             <label
               for="floating_email"
@@ -82,6 +86,7 @@ const card = () => {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required=""
+                value={fname}
               />
               <label
                 for="floating_first_name"
@@ -98,6 +103,7 @@ const card = () => {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required=""
+                value={lname}
               />
               <label
                 for="floating_last_name"
@@ -116,6 +122,7 @@ const card = () => {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required=""
+                value={phone}
               />
               <label
                 for="floating_phone"
@@ -132,6 +139,7 @@ const card = () => {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required=""
+                value={dob}
               />
               <label
                 for="floating_date"
@@ -144,24 +152,25 @@ const card = () => {
 
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 mb-6 w-full group">
-              <textarea
+              <input
                 type="text"
-                name="workHistory"
-                id="workHistory"
+                name="address"
+                id="address"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required=""
+                value={uAddress}
               />
               <label
                 for="workHistory"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Work History And Experiences
+                Address
               </label>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 md:gap-6">
+          {/* <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 mb-6 w-full group">
               <textarea
                 type="text"
@@ -178,14 +187,14 @@ const card = () => {
                 Profile Bio
               </label>
             </div>
-          </div>
+          </div> */}
 
-          <button
+          {/* <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Submit
-          </button>
+          </button> */}
         </form>
       </div>
     </div>

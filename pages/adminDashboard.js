@@ -19,6 +19,10 @@ const expertise = [];
 
 const adminDashboard = ({ hireReqs }) => {
   const router = useRouter();
+  const logOut = () => {
+    sessionStorage.removeItem("AdminToken");
+    router.push("/");
+  };
   const authorization = async () => {
     // let token = window.sessionStorage.getItem("Token");
     try {
@@ -239,7 +243,10 @@ const adminDashboard = ({ hireReqs }) => {
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
               ></path>
             </svg>
-            <span className="flex-1 ml-3 font-bold whitespace-nowrap">
+            <span
+              className="flex-1 ml-3 font-bold whitespace-nowrap"
+              onClick={logOut}
+            >
               Log Out
             </span>
           </li>
@@ -506,7 +513,7 @@ const adminDashboard = ({ hireReqs }) => {
                       <td className="py-4 px-6">{hireReq.description}</td>
                       <td className="py-4 px-6">
                         <button className=" py-4 px-6 font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                          Edit
+                          Assign
                         </button>
                       </td>
                       <td className="py-4 px-6">pending</td>

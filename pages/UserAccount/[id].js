@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { magic } from "../../lib/magic-client";
 const query = `*[_type == "users" && _id.current == $id][0]{email, first_name, last_name, phone_number, dateOfBirth, address }`;
 
-const UserAccount = ({ email, fname, lname, phone, dob, address, image }) => {
-  console.log(email, fname, lname, phone, dob, address, image);
+const UserAccount = ({ userEmail, fname, lname, phone, dob, uAddress, image }) => {
+  console.log(userEmail, fname, lname, phone, dob, uAddress, image);
   const router = useRouter();
   const authorization = async () => {
     // let token = window.sessionStorage.getItem("Token");
@@ -30,7 +30,15 @@ const UserAccount = ({ email, fname, lname, phone, dob, address, image }) => {
         <Header />
       </div>
       <div className=" mt-16 md:mx-20 mx-1 ">
-        <Card />
+        <Card
+          userEmail={userEmail}
+          fname={fname}
+          lname={lname}
+          phone={phone}
+          dob={dob}
+          uAddress={uAddress}
+          photo={image}
+        />
       </div>
     </div>
   );
@@ -59,12 +67,12 @@ export const getServerSideProps = async (pageContext) => {
   } else {
     return {
       props: {
-        email: user.email,
+        userEmail: user.email,
         fname: user.first_name,
         lname: user.last_name,
         phone: user.phone_number,
         dob: user.dateOfBirth,
-        address: user.address,
+        uAddress: user.address,
         image: user.photo,
       },
     };
