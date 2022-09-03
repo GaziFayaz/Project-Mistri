@@ -192,7 +192,7 @@ const exploreservices = ({ services, users, cId, cAddress, cName, cphone }) => {
 
 export async function getStaticProps({ userMail }) {
   const serImage = [];
-  // const { E } = await magic.user.getMetadata();
+  
   const services = await sanityClient.fetch(servicesQ);
   const nowUser = await sanityClient.fetch(currUser);
   console.log(nowUser[0]);

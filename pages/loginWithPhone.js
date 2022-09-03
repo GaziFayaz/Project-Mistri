@@ -104,8 +104,8 @@ const loginWithPhone = ({ users }) => {
             // User signed in successfully.
             const user = result.user;
             sessionStorage.setItem("Token", user.accessToken);
-
-            console.log(user);
+            sessionStorage.setItem("Phone", user.phoneNumber);
+            console.log(user.phoneNumber);
 
             router.push("/");
 
@@ -118,7 +118,6 @@ const loginWithPhone = ({ users }) => {
             console.log(error);
           });
       } else {
-        
         setExpand(false);
         setUserMsg("You are not signed up yet. Please fill up and register");
         let confirmationResult = window.confirmationResult;
@@ -134,7 +133,7 @@ const loginWithPhone = ({ users }) => {
           .catch((error) => {
             alert(error);
             setUserMsg(""); // deletes user message if error occurs
-    setIsNewUser(false);
+            setIsNewUser(false);
             // User couldn't sign in (bad verification code?)
             // ...
             console.log(error);

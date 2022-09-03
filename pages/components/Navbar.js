@@ -7,10 +7,14 @@ import { useRouter } from "next/router";
 import { magic } from "../../lib/magic-client";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
+import { sanityClient } from "../../lib/Sanity";
 
 import Link from "next/link";
 
 import Explore from "./Explore";
+
+const curruser = `*[_type == "currUser"]{user} `;
+var users;
 
 const Navbar = () => {
   const router = useRouter();
@@ -44,6 +48,7 @@ const Navbar = () => {
         });
       setIsLoggedIn(false);
       sessionStorage.removeItem("Token");
+      sessionStorage.removeItem("Phone");
     } else {
       try {
         await magic.user.logout();
@@ -59,9 +64,34 @@ const Navbar = () => {
 
   useEffect(() => {
     (async () => {
-      let token = sessionStorage.getItem("Token");
-      if (token) {
+      let phone = sessionStorage.getItem("Phone");
+      if (phone) {
         setIsLoggedIn(true);
+        try {
+          {
+            const Body = {
+              currUser: phone,
+            };
+            const result = await fetch(`/api/addCurrentUser`, {
+              body: JSON.stringify(Body),
+              method: "POST",
+            });
+            const json = await result.json();
+
+            const nowUser = await sanityClient.fetch(curruser);
+            const currentUser = nowUser[nowUser.length - 1].user;
+            console.log("this is current user: " + currentUser);
+            users = await sanityClient.fetch(
+              `*[_type == "users" && (phone_number == "${currentUser}")]{_id, address, first_name, phone_number}[0]`
+            );
+            console.log(users._id);
+            setUsername(users.first_name);
+            console.log(Body);
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         try {
           const isLoggedIn = await magic.user.isLoggedIn();
@@ -72,7 +102,7 @@ const Navbar = () => {
             if (email) {
               console.log({ email });
               const currUser = { email }.email;
-              setUsername(email);
+
               try {
                 {
                   const Body = {
@@ -83,6 +113,15 @@ const Navbar = () => {
                     method: "POST",
                   });
                   const json = await result.json();
+
+                  const nowUser = await sanityClient.fetch(curruser);
+                  const currentUser = nowUser[nowUser.length - 1].user;
+                  console.log("this is current user: " + currentUser);
+                  users = await sanityClient.fetch(
+                    `*[_type == "users" && (email == "${currentUser}")]{_id, address, first_name, phone_number}[0]`
+                  );
+                  console.log(users._id);
+                  setUsername(users.first_name);
                   console.log(Body);
                   return true;
                 }
@@ -128,11 +167,14 @@ const Navbar = () => {
 
           {showDropdown ? (
             <div className="flex-col w-full bg-proDropDown rounded-2xl">
-              <Link href={"/manage_account"}>
-                <p className="px-4 font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center">
-                  Manage Account
-                </p>
-              </Link>
+              {users && (
+                <Link href={`/UserAccount/${encodeURIComponent(users._id)}`}>
+                  <p className="px-4 font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center">
+                    Manage Account
+                  </p>
+                </Link>
+              )}
+
               <p
                 className="font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center"
                 onClick={logout}
@@ -213,5 +255,20 @@ const Navbar = () => {
     </div>
   );
 };
+
+export async function getStaticProps() {
+  const nowUser = await sanityClient.fetch(currUser);
+  console.log(nowUser);
+  const currentUser = nowUser[nowUser.length - 1].user;
+  console.log("this is current user: " + currentUser);
+  const users = await sanityClient.fetch(
+    `*[_type == "users" && (email == "${currentUser}")]{_id, address, first_name, phone_number}[0]`
+  );
+  return {
+    props: {
+      id: users._id,
+    },
+  };
+}
 
 export default Navbar;

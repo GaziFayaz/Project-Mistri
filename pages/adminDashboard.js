@@ -4,10 +4,20 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { magic } from "../lib/magic-client";
+import { sanityClient } from "../lib/Sanity";
+
+const hireReqQ = `*[_type == "hireReq"]{
+  name, 
+  description, 
+  cId,
+  cName,
+  cphone,
+  cAddress,
+}`;
 
 const expertise = [];
 
-const adminDashboard = () => {
+const adminDashboard = ({ hireReqs }) => {
   const router = useRouter();
   const authorization = async () => {
     // let token = window.sessionStorage.getItem("Token");
@@ -244,7 +254,9 @@ const adminDashboard = () => {
             className="space-y-5 max-w-md justify-center items-center"
             onSubmit={handleOnSubmitService}
           >
-            <h1 className="w-full text-center font-bold text-xl px-3 py-2">New Service</h1>
+            <h1 className="w-full text-center font-bold text-xl px-3 py-2">
+              New Service
+            </h1>
             <input
               placeholder="Service Name"
               type="text"
@@ -449,7 +461,7 @@ const adminDashboard = () => {
         </div>
       )}
       {showHireReqs && (
-        <div className=" flex px-36 py-28 inset-0  min-w-full ">
+        <div className=" flex px-36 py-16 inset-0 justify-center  ">
           <div className="relative">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -466,6 +478,10 @@ const adminDashboard = () => {
                   <th scope="col" className="py-3 px-6">
                     Requested Service
                   </th>
+
+                  <th scope="col" className="py-3 px-6">
+                    Description
+                  </th>
                   <th scope="col" className="py-3 px-6">
                     Action
                   </th>
@@ -474,24 +490,29 @@ const adminDashboard = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Apple MacBook Pro 17"
-                  </th>
-                  <td className="py-4 px-6">Sliver</td>
-                  <td className="py-4 px-6">Laptop</td>
-                  <td className="py-4 px-6">$2999</td>
-                  <td className="py-4 px-6">
-                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+              {hireReqs?.length > 0 &&
+                hireReqs.map((hireReq) => (
+                  <tbody>
+                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {hireReq.cId}
+                      </th>
+                      <td className="py-4 px-6">{hireReq.cName}</td>
+                      <td className="py-4 px-6">{hireReq.cphone}</td>
+                      <td className="py-4 px-6">{hireReq.name}</td>
+                      <td className="py-4 px-6">{hireReq.description}</td>
+                      <td className="py-4 px-6">
+                        <button className=" py-4 px-6 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                          Edit
+                        </button>
+                      </td>
+                      <td className="py-4 px-6">pending</td>
+                    </tr>
+                  </tbody>
+                ))}
             </table>
           </div>
         </div>
@@ -501,3 +522,10 @@ const adminDashboard = () => {
 };
 
 export default adminDashboard;
+
+export async function getStaticProps() {
+  const hireReqs = await sanityClient.fetch(hireReqQ);
+  return {
+    props: { hireReqs },
+  };
+}
