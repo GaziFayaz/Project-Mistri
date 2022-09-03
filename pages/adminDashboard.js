@@ -4,10 +4,13 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { magic } from "../lib/magic-client";
+import { sanityClient } from "../lib/Sanity";
+import services from "../sanity/schemas/services";
 
 const expertise = [];
+const allServices = `*[_type == "services"]`;
 
-const adminDashboard = () => {
+const adminDashboard = ({ services }) => {
   const router = useRouter();
   const authorization = async () => {
     // let token = window.sessionStorage.getItem("Token");
@@ -23,7 +26,7 @@ const adminDashboard = () => {
     }
   };
   authorization();
-  const [showService, setShowService] = useState();
+  const [showService, setShowService] = useState(true);
   // const [serviceButton, setServiceButton] = useState(true);
 
   const [serviceName, setServiceName] = useState();
@@ -58,6 +61,25 @@ const adminDashboard = () => {
   const [mistriCertificateUrl, setMistriCertificateUrl] = useState();
 
   const [showHireReqs, setShowHireReqs] = useState();
+
+  const deleteService = async (service) => {
+    try{
+      console.log("Inside")
+        const Body = {
+          id: service._id
+        }
+        console.log(Body);
+        const result = await fetch(`/api/services`, {
+          body:JSON.stringify(Body),
+          method: "DELETE"
+        });
+        const json = await result.json();
+        
+    }
+    catch(error) {
+      console.log("error", error);
+    }
+  }
 
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
@@ -140,7 +162,7 @@ const adminDashboard = () => {
   };
   return (
     <div className="bg-homebg inset-0 flex">
-      <div className=" w-64 py-4 px-3 w-30 min-h-screen bg-header rounded-b-xl dark:bg-gray-800 sm:max-w-min md:max-w-lg">
+      <div className=" w-64 py-4 px-3 min-h-screen bg-header rounded-b-xl dark:bg-gray-800  ">
         <ul className="space-y-2">
           <li
             className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
@@ -239,14 +261,66 @@ const adminDashboard = () => {
       </div>
 
       {showService && (
-        <div className="m-40 ml-50 min-w-full items-center">
-          <button classname="p-4 ">Add Service</button>
-
+        <div className="flex flex-col inset-0 min-w-full justify-center items-center pr-20">
+          <div className="relative">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-2 border-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-black">
+                <tr>
+                  <th
+                    scope="col"
+                    className="py-3 px-6 border-2 border-black text-lg"
+                  >
+                    Service
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 px-6 border-2 border-black text-lg"
+                  >
+                    Price
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 px-6 border-2 border-black text-lg"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {services?.length > 0 &&
+                  services.map((service) => (
+                    <tr className="bg-white border-2 border-black dark:bg-gray-900 dark:border-gray-700">
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 text-lg whitespace-nowrap dark:text-white"
+                      >
+                        {service.name}
+                      </th>
+                      <td className="py-4 px-6 text-lg border-2 border-black">
+                        {service.price}tk.
+                      </td>
+                      <td className="py-4 px-6">
+                        <button className="font-medium text-lg text-red-600 dark:text-red-500 hover:underline" 
+                        onClick={(e) => {
+                          console.log(e);
+                          deleteService(service);
+                          console.log(service)
+                        }} >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
           <form
-            className="space-y-5 max-w-md justify-center items-center"
+            className="pt-20 space-y-5 max-w-md justify-center items-center"
             onSubmit={handleOnSubmitService}
           >
-            <h1 className="w-full text-center font-bold text-xl px-3 py-2">New Service</h1>
+            <h1 className="w-full text-center font-bold text-xl px-3 py-2">
+              New Service
+            </h1>
             <input
               placeholder="Service Name"
               type="text"
@@ -299,7 +373,7 @@ const adminDashboard = () => {
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
             >
-              Submit
+              Add New Service
             </button>
           </form>
         </div>
@@ -503,3 +577,10 @@ const adminDashboard = () => {
 };
 
 export default adminDashboard;
+
+export async function getStaticProps() {
+  const services = await sanityClient.fetch(allServices);
+  return {
+    props: { services },
+  };
+}
