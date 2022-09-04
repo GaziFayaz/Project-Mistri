@@ -14,7 +14,8 @@ import Link from "next/link";
 import Explore from "./Explore";
 
 const curruser = `*[_type == "currUser"]{user} `;
-var users;
+var userPhone;
+var useremail;
 
 const Navbar = () => {
   const router = useRouter();
@@ -55,6 +56,7 @@ const Navbar = () => {
         const isLoggedIn = await magic.user.isLoggedIn();
         setIsLoggedIn(isLoggedIn);
         console.log("User logged Out! isLoggedIn-", isLoggedIn); // => `false`
+        router.push("/");
       } catch (error) {
         // Handle errors if required!
         console.log("could not log out the user", error);
@@ -64,8 +66,12 @@ const Navbar = () => {
 
   useEffect(() => {
     (async () => {
-      let phone = sessionStorage.getItem("Phone");
-      if (phone) {
+      let phoneWithCode = sessionStorage.getItem("Phone");
+      // phoneWithCode = phone wiht country code
+      if (phoneWithCode) {
+        const phone = phoneWithCode.substring(3);
+        // +8801625347735
+        console.log(phone);
         setIsLoggedIn(true);
         try {
           {
@@ -80,12 +86,13 @@ const Navbar = () => {
 
             const nowUser = await sanityClient.fetch(curruser);
             const currentUser = nowUser[nowUser.length - 1].user;
+            console.log("inside phone as current user");
             console.log("this is current user: " + currentUser);
-            users = await sanityClient.fetch(
+            userPhone = await sanityClient.fetch(
               `*[_type == "users" && (phone_number == "${currentUser}")]{_id, address, first_name, phone_number}[0]`
             );
-            console.log(users._id);
-            setUsername(users.first_name);
+            console.log(userPhone._id);
+            setUsername(userPhone.first_name);
             console.log(Body);
             return true;
           }
@@ -116,12 +123,13 @@ const Navbar = () => {
 
                   const nowUser = await sanityClient.fetch(curruser);
                   const currentUser = nowUser[nowUser.length - 1].user;
+                  console.log("inside email as current user");
                   console.log("this is current user: " + currentUser);
-                  users = await sanityClient.fetch(
+                  useremail = await sanityClient.fetch(
                     `*[_type == "users" && (email == "${currentUser}")]{_id, address, first_name, phone_number}[0]`
                   );
-                  console.log(users._id);
-                  setUsername(users.first_name);
+                  console.log(useremail._id);
+                  setUsername(useremail.first_name);
                   console.log(Body);
                   return true;
                 }
@@ -167,8 +175,19 @@ const Navbar = () => {
 
           {showDropdown ? (
             <div className="flex-col w-full bg-proDropDown rounded-2xl">
-              {users && (
-                <Link href={`/UserAccount/${encodeURIComponent(users._id)}`}>
+              {userPhone && (
+                <Link
+                  href={`/UserAccount/${encodeURIComponent(userPhone._id)}`}
+                >
+                  <p className="px-4 font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center">
+                    Manage Account
+                  </p>
+                </Link>
+              )}
+              {useremail && (
+                <Link
+                  href={`/UserAccount/${encodeURIComponent(useremail._id)}`}
+                >
                   <p className="px-4 font-bold rounded-2xl hover:text-white hover:bg-black cursor-pointer text-center">
                     Manage Account
                   </p>
