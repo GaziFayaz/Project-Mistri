@@ -17,8 +17,9 @@ const hireReqQ = `*[_type == "hireReq"]{
 
 const expertise = [];
 const allServices = `*[_type == "services"]`;
+const allMistri = `*[_type == "mistri"]`
 
-const adminDashboard = ({ hireReqs, services }) => {
+const adminDashboard = ({ hireReqs, services, mistris }) => {
   const router = useRouter();
   const authorization = async () => {
     // let token = window.sessionStorage.getItem("Token");
@@ -34,9 +35,7 @@ const adminDashboard = ({ hireReqs, services }) => {
     }
   };
   authorization();
-  const [showService, setShowService] = useState(true);
-  // const [serviceButton, setServiceButton] = useState(true);
-
+  const [showService, setShowService] = useState();
   const [serviceName, setServiceName] = useState();
   const [servicePrice, setServicePrice] = useState();
   const [image, setImage] = useState();
@@ -389,7 +388,97 @@ const adminDashboard = ({ hireReqs, services }) => {
       {/* m-40 ml-50  items-center     relative sm:rounded-lg  */}
 
       {showMistri && (
-        <div className="m-40 ml-50 min-w-full items-center ">
+        <div className="flex flex-col inset-0 min-w-full justify-center items-center pr-20">
+          <div className="relative">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-2 border-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-black">
+                <tr>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Email
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Phone Number
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Address
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Expertise
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Experience
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {mistris?.length > 0 &&
+                  mistris.map((mistri) => (
+                    <tr className="bg-white border-2 border-black dark:bg-gray-900 dark:border-gray-700">
+                      <td
+                        scope="row"
+                        className="py-1 px-3 text-center font-medium text-gray-900 text-sm whitespace-nowrap dark:text-white"
+                      >
+                        {mistri.first_name} {mistri.last_name}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.email}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.phone_number}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.address}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {(mistri.expertises).map((expertise) => (
+                          <p>{expertise}</p>
+                        ))}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.experience}
+                      </td>
+                      <td className="py-1 px-3 text-center ">
+                        <button className="font-medium text-sm text-red-600 dark:text-red-500 hover:underline" 
+                        onClick={(e) => {
+                          console.log(e);
+                          // deleteService(mistri);
+                          // console.log(mistri)
+                        }} >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
           <h1 className="text-center max-w-xl font-semibold text-gray-700 text-2xl">
             New Mistri
           </h1>
@@ -598,7 +687,8 @@ export default adminDashboard;
 export async function getStaticProps() {
   const hireReqs = await sanityClient.fetch(hireReqQ);
   const services = await sanityClient.fetch(allServices);
+  const mistris = await sanityClient.fetch(allMistri);
   return {
-    props: { hireReqs, services },
+    props: { hireReqs, services, mistris },
   };
 }
