@@ -7,12 +7,14 @@ import mistrilogo from "../public/mistri_logo_svg.svg";
 import { magic } from "../lib/magic-client";
 import { sanityClient } from "../lib/Sanity";
 
-const userQuery = `*[_type == "user1"]{ email}.email`;
+const userQuery = `*[_type == "mistri"]{ email }.email`;
 
 export default function login({ users }) {
   const [userMsg, setUserMsg] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [showJoinPageButton, setShowJoinPageButton] = useState(false);
 
   const router = useRouter();
 
@@ -45,7 +47,7 @@ export default function login({ users }) {
       console.log({ didToken });
       if (didToken) {
         // route to home
-        router.push("/");
+        router.push("/mistriDashboard");
       }
     } catch (error) {
       // in case of error
@@ -69,8 +71,8 @@ export default function login({ users }) {
       if (flag > 0) {
         authenticate();
       } else {
-        setUserMsg("You are not registered yet. Please apply to join us!");
-        router.push("/join");
+        setUserMsg("You are not registered yet. Please apply for interview!");
+        setShowJoinPageButton(true);
       }
     } else {
       // show userMsg
@@ -79,7 +81,7 @@ export default function login({ users }) {
   };
 
   return (
-    <div className="bg-homebg h-screen ">
+    <div className="bg-homebg min-h-screen ">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8">
           <div className="flex-">
@@ -118,6 +120,14 @@ export default function login({ users }) {
               </span>
               {isLoading ? "Loading..." : "Sign In"}
             </button>
+            {showJoinPageButton && (
+            <button className="pt-4 w-full text-right underline text-blue-500"
+            onClick={(e) => {
+              router.push("/join")
+            }} >
+              Apply Now!
+            </button>
+            )}
           </div>
         </div>
       </div>
