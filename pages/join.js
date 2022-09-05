@@ -128,7 +128,7 @@ const join = () => {
       });
       const json = await result.json();
       console.log(Body);
-      return json;
+      console.log(json) ;
     } catch (error) {
       console.log("error", error);
     }
