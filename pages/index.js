@@ -8,7 +8,7 @@ import Slideshow from "./components/Slideshow";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { sanityClient } from "../lib/Sanity";
-import { createClient } from "next-sanity";
+import { createClient } from "next-sanity"; 
 // import { fetchservices } from "../lib/fetchservices";
 import Link from "next/link";
 

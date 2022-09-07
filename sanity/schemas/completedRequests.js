@@ -1,16 +1,11 @@
 export default {
-  name: "onGoingReqs",
-  title: "On Going Request",
+  name: "completedReq",
+  title: "Completed Requests",
   type: "document",
   fields: [
     {
       name: "reqId",
       title: "Request Id",
-      type: "string",
-    },
-    {
-      name: "mId",
-      title: "Mistri ID",
       type: "string",
     },
     {
@@ -21,6 +16,11 @@ export default {
     {
       name: "mPhone",
       title: "Mistri Phone Number",
+      type: "string",
+    },
+    {
+      name: "status",
+      title: "Status",
       type: "string",
     },
   ],

@@ -15,6 +15,8 @@ import userFormSchema from "./userFormSchema.js";
 import adminInfo from "./adminInfo";
 import hireRequest from "./hireRequest";
 import currentUser from "./currentUser";
+import onGoingRequests from "./onGoingRequests";
+import completedRequests from "./completedRequests";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -34,6 +36,8 @@ export default createSchema({
     adminInfo,
     hireRequest,
     currentUser,
+    onGoingRequests,
+    completedRequests,
 
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas

@@ -143,12 +143,6 @@ const exploreservices = ({ services, users, cId, cAddress, cName, cphone }) => {
               <div className="flex flex-col">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Requested service
-                  {users && (
-                    <div>
-                      <h2>{users._id}</h2>
-                      <h2>{users.first_name}</h2>
-                    </div>
-                  )}
                 </label>
                 <input
                   type="text"
@@ -190,15 +184,16 @@ const exploreservices = ({ services, users, cId, cAddress, cName, cphone }) => {
   );
 };
 
-export async function getStaticProps({ userMail }) {
+export async function getStaticProps() {
   const serImage = [];
-  
+
   const services = await sanityClient.fetch(servicesQ);
   const nowUser = await sanityClient.fetch(currUser);
   console.log(nowUser[0]);
   const currentUser = nowUser[nowUser.length - 1].user;
+  console.log(currentUser);
   const users = await sanityClient.fetch(
-    `*[_type == "users" && (email == "${currentUser}")]{_id, address, first_name, phone_number}[0]`
+    `*[_type == "users" && (phone_number == "${currentUser}")]{_id, address, first_name, phone_number}[0]`
   );
   console.log(users);
   for (let index = 0; index < services.length; index++) {

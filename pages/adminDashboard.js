@@ -1,11 +1,18 @@
-import { ChevronDownIcon } from "@heroicons/react/outline";
+import { ArrowCircleLeftIcon, ChevronDownIcon } from "@heroicons/react/outline";
 import Multiselect from "multiselect-react-dropdown";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { magic } from "../lib/magic-client";
 import { sanityClient } from "../lib/Sanity";
-import MistriForAssignment from "./components/MistriForAssignment";
+let reqId = "";
+let mId = "";
+let mName = "";
+let mPhone = "";
+let completedReqId = "";
+let completedMName = "";
+let completedMPhone = "";
+let status = "";
 
 const hireReqQ = `*[_type == "hireReq"]{
   _id,
@@ -16,12 +23,22 @@ const hireReqQ = `*[_type == "hireReq"]{
   cphone,
   cAddress,
 }`;
+const onGoingReqsQ = `*[_type == "onGoingReqs"]{reqId, mName, mPhone}`;
+const allMistri = `*[_type == "mistri"]`;
+const hireReqQ2 = `*[_type == "hireReq"]{ _id, cName, name}`;
 const mistriQ = `*[_type == "mistri"]{_id, first_name,phone_number, expertises}`;
 
 const expertise = [];
 const allServices = `*[_type == "services"]`;
 
-const adminDashboard = ({ hireReqs, services, allMistries }) => {
+const adminDashboard = ({
+  hireReqs,
+  services,
+  allMistries,
+  onGoingReqs,
+  hireReqs2,
+  mistris,
+}) => {
   const router = useRouter();
   const logOut = () => {
     sessionStorage.removeItem("AdminToken");
@@ -155,12 +172,34 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
     }
   };
   const addAssignedMistri = async (event) => {
-    event.preventDefault();
     try {
       const Body = {
         reqId: reqId,
+        mId: mId,
+        mName: mName,
+        mPhone: mPhone,
       };
-      const result = await fetch(`/api/mistri`, {
+      const result = await fetch(`/api/onGoingAssignedMistri`, {
+        body: JSON.stringify(Body),
+        method: "POST",
+      });
+      const json = await result.json();
+      console.log(Body);
+      return json;
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const addCompletedRequests = async (e) => {
+    try {
+      const Body = {
+        reqId: completedReqId,
+        mName: completedMName,
+        mPhone: completedMPhone,
+        status: status,
+      };
+      const result = await fetch(`/api/addCompletedReqs`, {
         body: JSON.stringify(Body),
         method: "POST",
       });
@@ -433,7 +472,97 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
       {/* m-40 ml-50  items-center     relative sm:rounded-lg  */}
 
       {showMistri && (
-        <div className="m-40 ml-50 min-w-full items-center ">
+        <div className="flex flex-col inset-0 min-w-full justify-center items-center pr-20">
+          <div className="relative">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-2 border-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-black">
+                <tr>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Email
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Phone Number
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Address
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Expertise
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Experience
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-1 px-3 text-center border-2 border-black text-sm"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {mistris?.length > 0 &&
+                  mistris.map((mistri) => (
+                    <tr className="bg-white border-2 border-black dark:bg-gray-900 dark:border-gray-700">
+                      <td
+                        scope="row"
+                        className="py-1 px-3 text-center font-medium text-gray-900 text-sm whitespace-nowrap dark:text-white"
+                      >
+                        {mistri.first_name} {mistri.last_name}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.email}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.phone_number}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.address}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {(mistri.expertises).map((expertise) => (
+                          <p>{expertise}</p>
+                        ))}
+                      </td>
+                      <td className="py-1 px-3 text-center text-sm border-2 border-black text-gray-900">
+                        {mistri.experience}
+                      </td>
+                      <td className="py-1 px-3 text-center ">
+                        <button className="font-medium text-sm text-red-600 dark:text-red-500 hover:underline" 
+                        onClick={(e) => {
+                          console.log(e);
+                          // deleteService(mistri);
+                          // console.log(mistri)
+                        }} >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
           <h1 className="text-center max-w-xl font-semibold text-gray-700 text-2xl">
             New Mistri
           </h1>
@@ -566,7 +695,6 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:border-green-700 focus:z-10 sm:text-sm"
               />
             </div>
-
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-green-900 hover:text-black bg-header hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-header "
@@ -582,9 +710,9 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="py-3 px-6">
+                  {/* <th scope="col" className="py-3 px-6">
                     Customer ID
-                  </th>
+                  </th> */}
                   <th scope="col" className="py-3 px-6">
                     Customer Name
                   </th>
@@ -618,7 +746,7 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
                         className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                         {hireReq.cId}
-                      </th>
+                      </th> */}
                       <td className="py-4 px-6">{hireReq.cName}</td>
                       <td className="py-4 px-6">{hireReq.cphone}</td>
                       <td className="py-4 px-6">{hireReq.name}</td>
@@ -627,9 +755,11 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
                         <button
                           className=" py-4 px-6 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           onClick={() => {
-                            setReqId(hireReq._id);
+                            reqId = `${hireReq._id}`;
                             console.log(hireReq._id, reqId);
                             setShowHireReqs(false);
+                            setShowMistri(false);
+                            setShowService(false);
                             setAssignment(true);
                           }}
                         >
@@ -663,7 +793,7 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
                     Action
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    Status
+                    Mistri Availability
                   </th>
                 </tr>
               </thead>
@@ -686,14 +816,88 @@ const adminDashboard = ({ hireReqs, services, allMistries }) => {
                         <button
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                           onClick={(e) => {
-                            e.preventDefault();
-                            setmId(m._id);
-                            setmName(m.first_name);
-                            setmPhone(m.phone_number);
-                            
+                            if (availability) {
+                              e.preventDefault();
+                              mId = `${m._id}`;
+                              mName = `${m.first_name}`;
+                              mPhone = `${m.phone_number}`;
+                              addAssignedMistri();
+                              setAssignment(false);
+                              setonGoingAssignment(true);
+                              setAvailability(false);
+                            } else {
+                              alert("You cannot choose this Mistri");
+                            }
                           }}
                         >
                           Assign
+                        </button>
+                      </td>
+                      <td className="py-4 px-6">
+                        {availability ? "available" : "not available"}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+      {onGoingAssignment && (
+        <div className="flex px-36 py-16 inset-0 justify-center">
+          <div className="relative">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="py-3 px-6">
+                    Request Id
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Mistri Name
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Mistri Phone Number
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Status
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {onGoingReqs?.length > 0 &&
+                  onGoingReqs.map((reqs) => (
+                    <tr
+                      key={reqs.reqId}
+                      className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+                    >
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {reqs.reqId}
+                      </th>
+                      <td className="py-4 px-6">{reqs.mName}</td>
+                      <td className="py-4 px-6">{reqs.mPhone}</td>
+                      <td className="py-4 px-6">
+                        {workDone ? "Completed" : "On Going"}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        <button
+                          className="font-medium text-blue-600 dark:text-blue-500 rounded-md"
+                          onClick={(e) => {
+                            setworkDone(true);
+                            completedReqId = `${reqs.reqId}`;
+                            completedMName = `${reqs.mName}`;
+                            completedMPhone = `${reqs.mPhone}`;
+                            status = "completed";
+                            addCompletedRequests();
+                          }}
+                        >
+                          Done
                         </button>
                       </td>
                     </tr>
@@ -713,11 +917,17 @@ export async function getStaticProps() {
   const hireReqs = await sanityClient.fetch(hireReqQ);
   const services = await sanityClient.fetch(allServices);
   const allMistries = await sanityClient.fetch(mistriQ);
+  const mistris = await sanityClient.fetch(allMistri)
+  const onGoingReqs = await sanityClient.fetch(onGoingReqsQ);
+  const hireReqs2 = await sanityClient.fetch(hireReqQ2);
   return {
     props: {
       hireReqs,
       services,
       allMistries,
+      onGoingReqs,
+      hireReqs2,
+      mistris
     },
   };
 }

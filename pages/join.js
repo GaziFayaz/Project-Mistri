@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 
 import mistrilogo from "../public/mistri_logo_svg.svg";
 import Multiselect from "multiselect-react-dropdown";
+import { useRouter } from "next/router";
 
 const serviceQ = `*[_type == "user1"]{ email}.email`;
 
@@ -16,6 +17,8 @@ const certificateUrl = "";
 const imageUrl = "";
 
 const join = () => {
+  const router = useRouter();
+
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
@@ -128,7 +131,8 @@ const join = () => {
       });
       const json = await result.json();
       console.log(Body);
-      return json;
+      console.log(json) ;
+      router.push("/")
     } catch (error) {
       console.log("error", error);
     }
