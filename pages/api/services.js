@@ -30,13 +30,18 @@ export default async function handler(req, res) {
   }
 
   // Delete
-  else if(req.method === "DELETE"){
+  else if (req.method === "DELETE") {
+    console.log("delete");
     try {
       const data = JSON.parse(req.body);
       const mutations = [
         {
           delete: {
-            "id": data.id,
+            // _type: "services",
+            // name: "Carpentry",
+            // unset: {
+
+            // },
           },
         },
       ];

@@ -5,8 +5,10 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { magic } from "../lib/magic-client";
 import { sanityClient } from "../lib/Sanity";
+import MistriForAssignment from "./components/MistriForAssignment";
 
 const hireReqQ = `*[_type == "hireReq"]{
+  _id,
   name, 
   description, 
   cId,
@@ -14,11 +16,12 @@ const hireReqQ = `*[_type == "hireReq"]{
   cphone,
   cAddress,
 }`;
+const mistriQ = `*[_type == "mistri"]{_id, first_name,phone_number, expertises}`;
 
 const expertise = [];
 const allServices = `*[_type == "services"]`;
 
-const adminDashboard = ({ hireReqs, services }) => {
+const adminDashboard = ({ hireReqs, services, allMistries }) => {
   const router = useRouter();
   const logOut = () => {
     sessionStorage.removeItem("AdminToken");
@@ -27,10 +30,10 @@ const adminDashboard = ({ hireReqs, services }) => {
   const authorization = async () => {
     // let token = window.sessionStorage.getItem("Token");
     try {
-      const token = window.sessionStorage.getItem("Token");
+      // const token = window.sessionStorage.getItem("Token");
       const didToken = await magic.user.isLoggedIn();
 
-      if (didToken || token) {
+      if (didToken) {
         router.push("/FOF");
       }
     } catch (error) {
@@ -39,6 +42,13 @@ const adminDashboard = ({ hireReqs, services }) => {
   };
   authorization();
   const [showService, setShowService] = useState(true);
+  const [assignment, setAssignment] = useState(false);
+  const [reqId, setReqId] = useState("");
+  const [mId, setmId] = useState("");
+  const [mName, setmName] = useState("");
+  const [mPhone, setmPhone] = useState("");
+  const [mExpertise, setmExpertise] = useState([]);
+  const [workDone, setworkDone] = useState(false);
   // const [serviceButton, setServiceButton] = useState(true);
 
   const [serviceName, setServiceName] = useState();
@@ -75,23 +85,28 @@ const adminDashboard = ({ hireReqs, services }) => {
   const [showHireReqs, setShowHireReqs] = useState();
 
   const deleteService = async (service) => {
-    try{
-      console.log("Inside")
-        const Body = {
-          id: service._id
-        }
-        console.log(Body);
-        const result = await fetch(`/api/services`, {
-          body:JSON.stringify(Body),
-          method: "DELETE"
-        });
-        const json = await result.json();
-        
-    }
-    catch(error) {
-      console.log("error", error);
-    }
-  }
+    // try {
+    //   console.log("Inside");
+    //   const Body = {
+    //     name: service.name,
+    //     // price: service.price,
+    //     // image: service.image,
+    //   };
+    //   console.log(Body);
+    //   const result = await fetch(`/api/services`, {
+    //     body: JSON.stringify(Body),
+    //     method: "DELETE",
+    //   });
+    //   const json = await result.json();
+    // } catch (error) {
+    //   console.log("error", error);
+    // }
+    client
+      .delete({ query: '*[_type == "services"]{name}' })
+      .then(console.log)
+      .catch(console.error);
+  };
+  const handleAssign = () => {};
 
   function handleOnChange(changeEvent) {
     const reader = new FileReader();
@@ -135,6 +150,23 @@ const adminDashboard = ({ hireReqs, services }) => {
       });
       console.log(Body);
       console.log(result);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  const addAssignedMistri = async (event) => {
+    event.preventDefault();
+    try {
+      const Body = {
+        reqId: reqId,
+      };
+      const result = await fetch(`/api/mistri`, {
+        body: JSON.stringify(Body),
+        method: "POST",
+      });
+      const json = await result.json();
+      console.log(Body);
+      return json;
     } catch (error) {
       console.log("error", error);
     }
@@ -304,7 +336,10 @@ const adminDashboard = ({ hireReqs, services }) => {
               <tbody>
                 {services?.length > 0 &&
                   services.map((service) => (
-                    <tr className="bg-white border-2 border-black dark:bg-gray-900 dark:border-gray-700">
+                    <tr
+                      key={service._id}
+                      className="bg-white border-2 border-black dark:bg-gray-900 dark:border-gray-700"
+                    >
                       <th
                         scope="row"
                         className="py-4 px-6 font-medium text-gray-900 text-lg whitespace-nowrap dark:text-white"
@@ -315,12 +350,14 @@ const adminDashboard = ({ hireReqs, services }) => {
                         {service.price}tk.
                       </td>
                       <td className="py-4 px-6">
-                        <button className="font-medium text-lg text-red-600 dark:text-red-500 hover:underline" 
-                        onClick={(e) => {
-                          console.log(e);
-                          deleteService(service);
-                          console.log(service)
-                        }} >
+                        <button
+                          className="font-medium text-lg text-red-600 dark:text-red-500 hover:underline"
+                          onClick={(e) => {
+                            console.log(e);
+                            deleteService(service);
+                            console.log(service);
+                          }}
+                        >
                           Delete
                         </button>
                       </td>
@@ -572,7 +609,10 @@ const adminDashboard = ({ hireReqs, services }) => {
               {hireReqs?.length > 0 &&
                 hireReqs.map((hireReq) => (
                   <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                    <tr
+                      key={hireReq._id}
+                      className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+                    >
                       <th
                         scope="row"
                         className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -584,7 +624,15 @@ const adminDashboard = ({ hireReqs, services }) => {
                       <td className="py-4 px-6">{hireReq.name}</td>
                       <td className="py-4 px-6">{hireReq.description}</td>
                       <td className="py-4 px-6">
-                        <button className=" py-4 px-6 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                        <button
+                          className=" py-4 px-6 font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          onClick={() => {
+                            setReqId(hireReq._id);
+                            console.log(hireReq._id, reqId);
+                            setShowHireReqs(false);
+                            setAssignment(true);
+                          }}
+                        >
                           Assign
                         </button>
                       </td>
@@ -592,6 +640,65 @@ const adminDashboard = ({ hireReqs, services }) => {
                     </tr>
                   </tbody>
                 ))}
+            </table>
+          </div>
+        </div>
+      )}
+      {assignment && (
+        <div className="flex px-36 py-16 inset-0 justify-center">
+          <div className="relative">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="py-3 px-6">
+                    Mistri Name
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Mistri Phone Number
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Skills
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Action
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {allMistries?.length > 0 &&
+                  allMistries.map((m) => (
+                    <tr
+                      key={m._id}
+                      className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+                    >
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {m.first_name}
+                      </th>
+                      <td className="py-4 px-6">{m.phone_number}</td>
+                      <td className="py-4 px-6">{m.expertises},</td>
+                      <td className="py-4 px-6">
+                        <button
+                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setmId(m._id);
+                            setmName(m.first_name);
+                            setmPhone(m.phone_number);
+                            
+                          }}
+                        >
+                          Assign
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
             </table>
           </div>
         </div>
@@ -605,7 +712,12 @@ export default adminDashboard;
 export async function getStaticProps() {
   const hireReqs = await sanityClient.fetch(hireReqQ);
   const services = await sanityClient.fetch(allServices);
+  const allMistries = await sanityClient.fetch(mistriQ);
   return {
-    props: { hireReqs, services },
+    props: {
+      hireReqs,
+      services,
+      allMistries,
+    },
   };
 }
